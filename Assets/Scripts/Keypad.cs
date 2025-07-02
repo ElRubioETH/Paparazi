@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class Keypad : MonoBehaviour
 {
+
+    private bool hasPlayed = false;
+    public AudioSource audioSource;
+    public GameObject ToDestroy;
+
     public GameObject player;
     public GameObject keypadOB;
     public GameObject hud;
@@ -66,6 +71,10 @@ public class Keypad : MonoBehaviour
 
     public void Exit()
     {
+        if( hasPlayed == false)
+        {
+            audioSource.Play();
+        }
         keypadOB.SetActive(false);
         inv.SetActive(true);
         hud.SetActive(true);
@@ -76,10 +85,12 @@ public class Keypad : MonoBehaviour
 
     public void Update()
     {
-        if (textOB.text == "Right" && animate)
+        if (textOB.text == "Right" && animate && !hasPlayed)
         {
+            hasPlayed = true;
             ANI.SetBool("animate", true);
             Debug.Log("its open");
+            Destroy(ToDestroy);
         }
 
 
