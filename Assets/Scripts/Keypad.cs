@@ -70,6 +70,8 @@ public class Keypad : MonoBehaviour
         inv.SetActive(true);
         hud.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Update()
