@@ -34,11 +34,11 @@ public class FieldOfViewEditor : Editor
             Handles.DrawLine(fov.transform.position, fov.playerRef.transform.position);
 
             // Draw detection progress - using the public properties now
-            //if (fov.currentState == FieldOfView.EnemyState.Detect)
-            //{
-                //Handles.Label(fov.transform.position + Vector3.up * 2,
-                    //$"Detecting: {(fov.DetectionProgress / fov.DetectionTime * 100):0}%");
-            //}
+            if (fov.currentState == FieldOfView.EnemyState.Detect)
+            {
+                Handles.Label(fov.transform.position + Vector3.up * 2,
+                    $"Detecting: {(fov.DetectionProgress / fov.DetectionTime * 100):0}%");
+            }
         }
 
         // Rest of your patrol path drawing code remains the same...
