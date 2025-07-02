@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PickUpKey : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PickUpKey : MonoBehaviour
     public AudioSource keySound;
 
     public bool inReach;
+    public UnityEvent Afterpickup;
 
 
     void Start()
@@ -49,6 +51,9 @@ public class PickUpKey : MonoBehaviour
             keySound.Play();
             invOB.SetActive(true);
             pickUpText.SetActive(false);
+
+            if (Afterpickup != null)
+                Afterpickup.Invoke();
         }
 
         
