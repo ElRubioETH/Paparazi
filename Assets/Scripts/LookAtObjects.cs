@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class LookAtObjects : MonoBehaviour
 {
-    public Text textOB;
-    public string description = "Description";
+    public AudioSource audioSource;
+    public AudioClip dialogueClip;
 
     public bool inReach;
 
 
     void Start()
     {
-        textOB.GetComponent<Text>().enabled = false;
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -21,7 +21,6 @@ public class LookAtObjects : MonoBehaviour
         if (other.gameObject.tag == "Reach")
         {
             inReach = true;
-            textOB.GetComponent<Text>().enabled = true;
         }
     }
 
@@ -30,8 +29,7 @@ public class LookAtObjects : MonoBehaviour
         if (other.gameObject.tag == "Reach")
         {
             inReach = false;
-            textOB.GetComponent<Text>().enabled = false;
-            textOB.GetComponent<Text>().text = "";
+
         }
     }
 
@@ -39,7 +37,8 @@ public class LookAtObjects : MonoBehaviour
     {
         if (inReach && Input.GetButtonDown("Interact"))
         {
-            textOB.text = description.ToString();
+            if (audioSource != null && dialogueClip != null)
+                audioSource.PlayOneShot(dialogueClip);
         }   
 
     }

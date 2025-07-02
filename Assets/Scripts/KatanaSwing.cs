@@ -10,6 +10,7 @@ public class KatanaSwing : MonoBehaviour
     private bool isAttacking = false;
     private float attackDuration;
     public bool haveKatana;
+    public DamageZone DmgZone;
     void Start()
     {
     }
@@ -32,7 +33,7 @@ public class KatanaSwing : MonoBehaviour
         float attackDuration = stateInfo.length;
 
         // Gọi zone gây sát thương
-        GetComponentInChildren<DamageZone>().EnableDamage();
+        DmgZone.EnableDamage();
 
         yield return new WaitForSeconds(attackDuration);
 

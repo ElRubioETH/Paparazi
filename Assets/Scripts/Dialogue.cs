@@ -1,29 +1,41 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
+using UnityEngine.Events;
 
 public class Dialogue : MonoBehaviour
 {
-    public Text textOB;
-    public GameObject Activator;
+    [Header("UI & Text")]
+    public TextMeshProUGUI textOB;
     public string dialogue = "Dialogue";
 
+    [Header("Settings")]
     public float timer = 2f;
+    public GameObject Activator;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip dialogueClip;
 
+    [Header("Event Called After Dialogue Ends")]
+    public UnityEvent onDialogueEnd;
 
     void Start()
     {
-        textOB.GetComponent<Text>().enabled = false;
+        textOB.enabled = false;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            textOB.GetComponent<Text>().enabled = true;
-            textOB.text = dialogue.ToString();
+            textOB.enabled = true;
+            textOB.text = dialogue;
+
+            // Phát âm thanh nếu có
+            if (audioSource != null && dialogueClip != null)
+                audioSource.PlayOneShot(dialogueClip);
+
             StartCoroutine(DisableText());
         }
     }
@@ -31,10 +43,11 @@ public class Dialogue : MonoBehaviour
     IEnumerator DisableText()
     {
         yield return new WaitForSeconds(timer);
-        textOB.GetComponent<Text>().enabled = false;
+
+        textOB.enabled = false;
         Destroy(Activator);
 
+        if (onDialogueEnd != null)
+            onDialogueEnd.Invoke();
     }
-
-
 }
