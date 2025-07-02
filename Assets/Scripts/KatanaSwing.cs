@@ -11,6 +11,7 @@ public class KatanaSwing : MonoBehaviour
     private float attackDuration;
     public bool haveKatana;
     public DamageZone DmgZone;
+    public AudioSource swing;
     void Start()
     {
     }
@@ -26,7 +27,7 @@ public class KatanaSwing : MonoBehaviour
     {
         isAttacking = true;
         anim.SetTrigger("Attack");
-
+        swing.Play();
         yield return null;
 
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
