@@ -9,11 +9,11 @@ public class DamageZone : MonoBehaviour
     {
         if (canDamage && other.CompareTag("Enemy"))
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            FieldOfView enemy = other.GetComponent<FieldOfView>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damageAmount);
-                canDamage = false; // Đảm bảo mỗi swing chỉ đánh trúng 1 lần
+                canDamage = false;
             }
         }
     }

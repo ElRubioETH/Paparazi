@@ -10,16 +10,27 @@ public class PlayerHealth : MonoBehaviour
     public GameObject player;
 
     public float health = 100f;
+    private float currentHealth;
 
 
 
     void Start()
     {
         deathScreen.SetActive(false);
+        currentHealth = maxHealth;
+
     }
 
-
-
+    public float maxHealth = 100f;
+    public void TakeDamage(float dmg)
+    {
+        health -= dmg;
+        Debug.Log("Player took damage! Current HP: " + health);
+        if (health <= 0)
+        {
+            Debug.Log("Player died!");
+        }
+    }
     void Update()
     {
 
