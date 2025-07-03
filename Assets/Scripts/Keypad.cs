@@ -19,7 +19,7 @@ public class Keypad : MonoBehaviour
 
     public GameObject animateOB;
     public Animator ANI;
-
+    public GameObject keypadText;
 
     public Text textOB;
     public string answer = "12345";
@@ -87,9 +87,11 @@ public class Keypad : MonoBehaviour
     {
         if (textOB.text == "Right" && animate && !hasPlayed)
         {
+            keypadText.GetComponent<OpenKeyPad>().enabled = false;
             hasPlayed = true;
             ANI.SetBool("animate", true);
             Debug.Log("its open");
+
             Destroy(ToDestroy);
         }
 
