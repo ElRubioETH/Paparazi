@@ -2,12 +2,13 @@
 
 public class Doors : MonoBehaviour
 {
+    public bool IsOpen => isOpen;
     public Animator door;
     public GameObject openText;
     public AudioSource doorSound;
 
     public bool inReach;
-    private bool isOpen = false;
+    public bool isOpen = false;
 
     void Start()
     {
