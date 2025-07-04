@@ -1,4 +1,4 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(FieldOfView))]
@@ -49,14 +49,17 @@ public class FieldOfViewEditor : Editor
             {
                 if (fov.patrolPoints[i] != null)
                 {
-                    Handles.DrawLine(
-                        fov.transform.position,
-                        fov.patrolPoints[i].position);
+                    // Vẽ đường từ enemy tới điểm tuần tra
+                    Handles.DrawLine(fov.transform.position, fov.patrolPoints[i].position);
 
-                    // ... rest of patrol drawing code
+                    // Vẽ nhãn chữ cái trên mỗi điểm
+                    Vector3 labelPos = fov.patrolPoints[i].position + Vector3.up * 0.5f;
+                    char labelChar = (char)('A' + i); // A, B, C...
+                    Handles.Label(labelPos, $"Point {labelChar}");
                 }
             }
         }
+
     }
 
     private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)

@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class FieldOfView : MonoBehaviour
 {
+
+    public List<Doors> doorPerPoint;
+
     public Animator animator;
     private AudioSource audioSource;
     
@@ -149,27 +153,97 @@ public class FieldOfView : MonoBehaviour
     {
         if (animator) animator.SetBool("IsWalking", true);
 
-        if (patrolPoints.Count == 0) yield break;
+        // Không có điểm nào thì nghỉ
+        if (patrolPoints.Count == 0)
+        {
+            Debug.LogWarning("⚠️ Không có patrol point nào!");
+            yield break;
+        }
+
+        // Nếu số lượng doorPerPoint không khớp thì cảnh báo (nhưng vẫn chạy)
+        if (doorPerPoint.Count != patrolPoints.Count)
+        {
+            Debug.LogWarning("⚠️ Số lượng doorPerPoint không khớp với patrolPoints. Có thể gây lỗi null hoặc lệch cửa.");
+        }
 
         agent.speed = patrolSpeed;
-        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
 
+        int maxChecks = patrolPoints.Count;
+        int checkedCount = 0;
+        bool foundValidPoint = false;
+
+        while (checkedCount < maxChecks)
+        {
+            // Tăng index tuần tra và đảm bảo trong phạm vi
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
+            Vector3 nextPos = patrolPoints[currentPatrolIndex].position;
+
+            // Kiểm tra cửa (nếu có)
+            Doors door = null;
+            if (doorPerPoint.Count > currentPatrolIndex)
+                door = doorPerPoint[currentPatrolIndex];
+
+            if (door != null && !door.IsOpen)
+            {
+                Debug.Log($"🚪 Cửa tại patrol point {currentPatrolIndex} đang đóng → bỏ qua.");
+                checkedCount++;
+                continue;
+            }
+
+            // Tính path tới điểm tiếp theo
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(nextPos, path) && path.status == NavMeshPathStatus.PathComplete)
+            {
+                foundValidPoint = true;
+
+                // Gán destination → để cập nhật steeringTarget
+                agent.SetDestination(nextPos);
+                yield return null; // chờ 1 frame để agent cập nhật
+
+                // Quay đầu mượt về hướng path
+                Vector3 dir = (agent.steeringTarget - transform.position).normalized;
+                Quaternion lookRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
+                float elapsed = 0f;
+                float rotateTime = 1f;
+
+                if (animator) animator.SetBool("IsWalking", false);
+
+                while (elapsed < rotateTime)
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * 3f);
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+
+                if (animator) animator.SetBool("IsWalking", true);
+                break;
+            }
+
+            // Nếu không có path → thử điểm tiếp theo
+            checkedCount++;
+        }
+
+        if (!foundValidPoint)
+        {
+            Debug.Log("🛑 Enemy không tìm được điểm nào reachable. Đứng chờ.");
+            if (animator) animator.SetBool("IsWalking", false);
+            yield return new WaitForSeconds(2f);
+            yield break;
+        }
+
+        // Đợi tới nơi
         while (currentState == EnemyState.Patrol)
         {
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
-                agent.SetDestination(patrolPoints[currentPatrolIndex].position);
-
-                // Optional: Add a wait time at each patrol point
-                yield return new WaitForSeconds(1f);
+                break;
             }
-            if (animator) animator.SetBool("IsWalking", false);
-
             yield return null;
         }
-
     }
+
+
+
 
     private IEnumerator DetectState()
     {
