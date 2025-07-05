@@ -13,6 +13,7 @@ public class WeaponsSwitch : MonoBehaviour
 
     #region haveitem
     public GameObject haveKatana;
+    public GameObject HaveMedkit;
     #endregion
 
     void Start()
@@ -44,7 +45,7 @@ public class WeaponsSwitch : MonoBehaviour
             object04.SetActive(false);
         }
 
-        if (Input.GetButtonDown("3"))
+        if (HaveMedkit.activeInHierarchy && Input.GetButtonDown("3"))
         {
             object01.SetActive(false);
             object02.SetActive(true);

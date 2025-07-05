@@ -37,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
         }
         if (healthSlider != null)
         {
-            healthSlider.value = currentHealth;
+            healthSlider.value = health;
         }
     }
     void Update()
