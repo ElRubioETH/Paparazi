@@ -10,7 +10,7 @@ public class FixCar : MonoBehaviour
 
     public GameObject[] Tools;
     public PlayableDirector timeline;
-
+    public GameObject questpan;
     public GameObject miniGameUI; // ← Kéo UI MiniGame vào
 
     private bool miniGameIsOpen = false;
@@ -68,6 +68,7 @@ public class FixCar : MonoBehaviour
         }
         Destroy(gameObject);
         if (fix != null) fix.SetActive(false);
+        questpan.SetActive(false);
     }
 
     public void OnMiniGameFail()

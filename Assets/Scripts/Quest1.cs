@@ -12,19 +12,35 @@ public class Quest1 : MonoBehaviour
     public GameObject boltBox;
     public GameObject lifter;
 
-    void Update()
+    public void Active()
     {
+        questpan.SetActive(true);
         if (textUI == null) return;
 
-        string status = "Nhặt đồ sửa xe:\n";
-
-        status += " Búa " + BoolToText(hammer) + "\n";
-        status += " Máy Khoan " + BoolToText(drill) + "\n";
-        status += " Hộp Ốc vít " + BoolToText(boltBox) + "\n";
-        status += " Máy Nâng " + BoolToText(lifter) + "\n";
-
-        textUI.text = status;
+        // Kiểm tra nếu tất cả đều đã nhặt
+        if (IsAllCollected())
+        {
+            textUI.text = "Sửa xe";
+        }
+        else
+        {
+            string status = "Nhặt đồ sửa xe:\n";
+            status += " Búa " + BoolToText(hammer) + "\n";
+            status += " Máy Khoan " + BoolToText(drill) + "\n";
+            status += " Hộp Ốc vít " + BoolToText(boltBox) + "\n";
+            status += " Máy Nâng " + BoolToText(lifter) + "\n";
+            textUI.text = status;
+        }
     }
+
+    bool IsAllCollected()
+    {
+        return hammer != null && hammer.activeInHierarchy &&
+               drill != null && drill.activeInHierarchy &&
+               boltBox != null && boltBox.activeInHierarchy &&
+               lifter != null && lifter.activeInHierarchy;
+    }
+
 
     string BoolToText(GameObject obj)
     {

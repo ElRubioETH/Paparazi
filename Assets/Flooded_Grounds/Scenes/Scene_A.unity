@@ -5718,7 +5718,7 @@ MonoBehaviour:
   ANI: {fileID: 1642324796}
   keypadText: {fileID: 0}
   textOB: {fileID: 488773461}
-  answer: 35986
+  answer: 59451
   button: {fileID: 993819759}
   correct: {fileID: 1751507649}
   wrong: {fileID: 665514533}
@@ -21845,8 +21845,6 @@ GameObject:
   - component: {fileID: 155256151}
   - component: {fileID: 155256152}
   - component: {fileID: 155256153}
-  - component: {fileID: 155256154}
-  - component: {fileID: 155256155}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -21912,39 +21910,19 @@ MonoBehaviour:
   dialogueClip: {fileID: 8300000, guid: e2d8392cde70be740bf3f083fd92acfb, type: 3}
   onDialogueEnd:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &155256154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155256150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a184c15f3fcc84aa0731d805a49cb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textOB: {fileID: 1207279071}
-  QuestPan: {fileID: 949202179}
-  dialogue: "Ti\u1EBFn v\xE0o th\u1ECB tr\u1EA5n"
---- !u!114 &155256155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155256150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c52275dd347214ab7de2d6d6547a2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textUI: {fileID: 1207279071}
-  hammer: {fileID: 1256680408}
-  drill: {fileID: 386186971}
-  boltBox: {fileID: 79995745}
-  lifter: {fileID: 196762280}
+      m_Calls:
+      - m_Target: {fileID: 1759552049}
+        m_TargetAssemblyTypeName: Quest1, Assembly-CSharp
+        m_MethodName: Active
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &155992888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24115,6 +24093,7 @@ MonoBehaviour:
   - {fileID: 196762280}
   - {fileID: 79995745}
   timeline: {fileID: 1429670341}
+  questpan: {fileID: 0}
   miniGameUI: {fileID: 1896857597}
 --- !u!1001 &171845261
 PrefabInstance:
@@ -38388,7 +38367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 35986
+  m_text: 59451
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -104587,13 +104566,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787064644}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 559.46, y: 19.309, z: 461.793}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 579.574, y: 19.31, z: 446.051}
   m_LocalScale: {x: 0.035260603, y: 0.035260603, z: 0.035260603}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!1001 &787107318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106974,7 +106953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &807964598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -193334,6 +193313,10 @@ PlayableDirector:
     value: {fileID: 1561370316}
   - key: {fileID: -423467309494952883, guid: 00711c0364bf2464982a89d19e397dfd, type: 2}
     value: {fileID: 517069543}
+  - key: {fileID: -5570812622824824851, guid: 00711c0364bf2464982a89d19e397dfd, type: 2}
+    value: {fileID: 1538491837}
+  - key: {fileID: 510650613844231249, guid: 00711c0364bf2464982a89d19e397dfd, type: 2}
+    value: {fileID: 1914042024}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1429670342
@@ -237958,6 +237941,7 @@ GameObject:
   - component: {fileID: 1759552047}
   - component: {fileID: 1759552046}
   - component: {fileID: 1759552045}
+  - component: {fileID: 1759552049}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -238048,6 +238032,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1759552049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759552044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c52275dd347214ab7de2d6d6547a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textUI: {fileID: 1207279071}
+  questpan: {fileID: 949202179}
+  hammer: {fileID: 1256680408}
+  drill: {fileID: 386186971}
+  boltBox: {fileID: 79995745}
+  lifter: {fileID: 196762280}
 --- !u!1001 &1759836092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -289259,7 +289261,19 @@ MonoBehaviour:
   inReach: 0
   Afterpickup:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1759552049}
+        m_TargetAssemblyTypeName: Quest1, Assembly-CSharp
+        m_MethodName: Active
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!23 &3792648438961961648
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -289441,7 +289455,19 @@ MonoBehaviour:
   inReach: 0
   Afterpickup:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1759552049}
+        m_TargetAssemblyTypeName: Quest1, Assembly-CSharp
+        m_MethodName: Active
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &7166783453529334763
 Transform:
   m_ObjectHideFlags: 0
@@ -289498,7 +289524,19 @@ MonoBehaviour:
   inReach: 0
   Afterpickup:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1759552049}
+        m_TargetAssemblyTypeName: Quest1, Assembly-CSharp
+        m_MethodName: Active
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7291474438603952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -289605,7 +289643,19 @@ MonoBehaviour:
   inReach: 0
   Afterpickup:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1759552049}
+        m_TargetAssemblyTypeName: Quest1, Assembly-CSharp
+        m_MethodName: Active
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
