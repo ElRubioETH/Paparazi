@@ -5,7 +5,7 @@ public class Quest1 : MonoBehaviour
 {
     [Header("UI Text")]
     public TextMeshProUGUI textUI;
-
+    public GameObject questpan;
     [Header("Tools")]
     public GameObject hammer;
     public GameObject drill;
