@@ -5716,7 +5716,7 @@ MonoBehaviour:
   inv: {fileID: 1778707052}
   animateOB: {fileID: 835963485}
   ANI: {fileID: 1642324796}
-  keypadText: {fileID: 0}
+  keypadText: {fileID: 1316559805}
   textOB: {fileID: 488773461}
   answer: 59451
   button: {fileID: 993819759}
@@ -21902,12 +21902,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textOB: {fileID: 261428633}
-  dialogue: "Brian kh\xF4ng c\xF3 \u1EDF trong xe, \u1EDF k\u1EBF b\xEAn c\xF3 m\u1ED9t
-    th\u1ECB tr\u1EA5n h\xE3y th\u1EED t\xECm ki\u1EBFm xem n\xE0o"
-  timer: 6.4
+  dialogue: "Brian kh\xF4ng c\xF3 \u1EDF trong xe, xe c\u0169ng b\u1ECB h\u01B0 r\u1ED3i
+    m\xECnh ph\u1EA3i t\xECm c\xE1ch s\u1EEDa xe, d\u1EE5ng c\u1EE5 s\u1EEDa xe r\u01A1i
+    r\xE3i quanh \u0111\xE2y th\xF4i"
+  timer: 5
   Activator: {fileID: 155256150}
   audioSource: {fileID: 1623465556}
-  dialogueClip: {fileID: 8300000, guid: e2d8392cde70be740bf3f083fd92acfb, type: 3}
+  dialogueClip: {fileID: 8300000, guid: 5dcec6af610837e48bee3726c9bfc6e1, type: 3}
   onDialogueEnd:
     m_PersistentCalls:
       m_Calls:
@@ -24093,8 +24094,9 @@ MonoBehaviour:
   - {fileID: 196762280}
   - {fileID: 79995745}
   timeline: {fileID: 1429670341}
-  questpan: {fileID: 0}
+  questpan: {fileID: 949202179}
   miniGameUI: {fileID: 1896857597}
+  NextQuest: {fileID: 1207279071}
 --- !u!1001 &171845261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50931,7 +50933,7 @@ MonoBehaviour:
   textOB: {fileID: 261428633}
   dialogue: "N\u01A1i n\xE0y kh\xF4ng c\u0169ng kh\xF4ng c\xF3 ai c\u1EA3, h\xE3y
     th\u1EED t\xECm ki\u1EBFm xung "
-  timer: 6
+  timer: 5
   Activator: {fileID: 379135151}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: 48e94a216311f1d4ab288a1bdb1826d6, type: 3}
@@ -96089,7 +96091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textOB: {fileID: 261428633}
   dialogue: "C\xC1I QU\xC1I G\xCC TH\u1EBE N\xC0Y!!!"
-  timer: 3
+  timer: 5
   Activator: {fileID: 2017954579}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: 5ce8bc478e8423f4ca49e4ac4c2ef22e, type: 3}
@@ -124096,7 +124098,7 @@ MonoBehaviour:
   dialogue: "\u0110\u01B0\u1EDDng l\xEAn c\u1EA7u thang \u0111\xE3 b\u1ECB ch\u1EB7n.
     C\xF3 l\u1EBD m\xECnh c\xF3 th\u1EC3 ki\u1EBFm g\xEC \u0111\xF3 \u0111\u1EC3
     ph\xE1 n\xF3 trong ng\xF4i nh\xE0 n\xE0y"
-  timer: 6
+  timer: 5
   Activator: {fileID: 938634924}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: c5ae8dab653ea9548b0b86cbb7a280fb, type: 3}
@@ -142163,7 +142165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textOB: {fileID: 261428633}
   dialogue: "N\u01A1i n\xE0y kh\xF4ng c\xF3 ai c\u1EA3"
-  timer: 6
+  timer: 5
   Activator: {fileID: 1079228793}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: d46b8761087f4ce49bcfe7283d02e770, type: 3}
@@ -238900,7 +238902,7 @@ MonoBehaviour:
   textOB: {fileID: 261428633}
   dialogue: "\u1EDE \u0111\xE2y c\u0169ng kh\xF4ng c\xF3 ai, th\u1EADt k\u1EF3 l\u1EA1,
     n\u1ED9i th\u1EA5t c\xF3 v\u1EBB c\u0169 k\u0129"
-  timer: 6.4
+  timer: 5
   Activator: {fileID: 1765695488}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: 5593ee45f598a614a9b2480eef3bb131, type: 3}
@@ -271341,7 +271343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textOB: {fileID: 261428633}
   dialogue: "C\xF3 l\u1EBD th\u1EE9 n\xE0y s\u1EBD gi\xFAp \xEDch..."
-  timer: 6
+  timer: 5
   Activator: {fileID: 2017954579}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: 2a759da4b4c8c5d4a91902e19e206046, type: 3}
@@ -272505,7 +272507,7 @@ MonoBehaviour:
   textOB: {fileID: 261428633}
   dialogue: "L\u1EA1 nh\u1EC9 kh\xF4ng c\xF3 ai \u1EDF ngo\xE0i \u0111\u01B0\u1EDDng,
     h\xE3y th\u1EED ki\u1EC3m tra t\u1EEBng nh\xE0 xem n\xE0o!"
-  timer: 6
+  timer: 5
   Activator: {fileID: 2026850776}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: 53fa216a647df72449a964a864a7cf9a, type: 3}
@@ -277873,7 +277875,7 @@ MonoBehaviour:
   textOB: {fileID: 261428633}
   dialogue: "C\xF3 v\u1EBB ng\xF4i nh\xE0 n\xE0y b\u1ECB b\u1ECF hoang, h\xE3y th\u1EED
     ki\u1EBFm ti\u1EBFp trong th\u1ECB tr\u1EA5n n\xE0o"
-  timer: 6.4
+  timer: 5
   Activator: {fileID: 2066362978}
   audioSource: {fileID: 1623465556}
   dialogueClip: {fileID: 8300000, guid: 3e4bf510296770945b2d4454413f90d4, type: 3}

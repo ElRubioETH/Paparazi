@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using TMPro;  // Nếu bạn dùng TextMeshPro (khuyên dùng)
 
 public class FixCar : MonoBehaviour
 {
@@ -12,9 +13,9 @@ public class FixCar : MonoBehaviour
     public PlayableDirector timeline;
     public GameObject questpan;
     public GameObject miniGameUI; // ← Kéo UI MiniGame vào
-
+    public TextMeshProUGUI NextQuest;
     private bool miniGameIsOpen = false;
-
+    public Audio source; 
     void Start()
     {
         inReach = false;
@@ -68,7 +69,7 @@ public class FixCar : MonoBehaviour
         }
         Destroy(gameObject);
         if (fix != null) fix.SetActive(false);
-        questpan.SetActive(false);
+        NextQuest.text = "Tiến vào thị trấn";
     }
 
     public void OnMiniGameFail()
