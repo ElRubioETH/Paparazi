@@ -5,9 +5,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class FieldOfView : MonoBehaviour
 {
+    [Header("Events")]
+    public UnityEvent onEnemyDeath;
 
     public List<Doors> doorPerPoint;
 
@@ -385,6 +388,10 @@ public class FieldOfView : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }
+    private void InvokeDeathEvent()
+    {
+        onEnemyDeath?.Invoke();
+    }
     public void Die()
     {
         if (!isDead)
@@ -396,7 +403,7 @@ public class FieldOfView : MonoBehaviour
             PlaySound(dieClip);
 
             agent.isStopped = true;
-
+            Invoke(nameof(InvokeDeathEvent),0.5f);
             StartCoroutine(DelayedDestroy(2f)); // Chờ 2s rồi huỷ
         }
     }

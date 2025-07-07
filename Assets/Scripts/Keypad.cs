@@ -87,12 +87,12 @@ public class Keypad : MonoBehaviour
     {
         if (textOB.text == "Right" && animate && !hasPlayed)
         {
-            keypadText.GetComponent<OpenKeyPad>().enabled = false;
+            keypadText.SetActive(false) ;
             hasPlayed = true;
             ANI.SetBool("animate", true);
             Debug.Log("its open");
 
-            Destroy(ToDestroy);
+            ToDestroy.SetActive(false);
         }
 
 
