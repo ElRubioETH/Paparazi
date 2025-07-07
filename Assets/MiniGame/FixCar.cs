@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;  // ← THÊM DÒNG NÀY
+using UnityEngine.Playables;
 
 public class FixCar : MonoBehaviour
 {
@@ -9,12 +9,17 @@ public class FixCar : MonoBehaviour
     public bool inReach;
 
     public GameObject[] Tools;
-    public PlayableDirector timeline;  // ← Kéo Timeline vào đây
+    public PlayableDirector timeline;
+
+    public GameObject miniGameUI; // ← Kéo UI MiniGame vào
+
+    private bool miniGameIsOpen = false;
 
     void Start()
     {
         inReach = false;
         if (fix != null) fix.SetActive(false);
+        if (miniGameUI != null) miniGameUI.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
@@ -37,12 +42,9 @@ public class FixCar : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Interact") && inReach && AllToolsActive())
+        if (Input.GetButtonDown("Interact") && inReach && AllToolsActive() && !miniGameIsOpen)
         {
-            if (timeline != null)
-            {
-                timeline.Play();  // ← CHẠY TIMELINE
-            }
+            OpenMiniGame(); // ← Gọi mini-game
         }
     }
 
@@ -58,4 +60,29 @@ public class FixCar : MonoBehaviour
         return true;
     }
 
+    public void OnMiniGameSuccess()
+    {
+        if (timeline != null)
+        {
+            timeline.Play();
+        }
+        Destroy(gameObject);
+        if (fix != null) fix.SetActive(false);
+    }
+
+    public void OnMiniGameFail()
+    {
+        // Đóng mini-game, cho retry
+        if (miniGameUI != null) miniGameUI.SetActive(false);
+        miniGameIsOpen = false;
+    }
+
+    void OpenMiniGame()
+    {
+        if (miniGameUI != null)
+        {
+            miniGameUI.SetActive(true);
+            miniGameIsOpen = true;
+        }
+    }
 }
