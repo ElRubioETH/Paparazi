@@ -8,6 +8,7 @@ public class FixCar : MonoBehaviour
     public GameObject fix;
     public bool inReach;
 
+    public GameObject[] Tools;
     public PlayableDirector timeline;  // ← Kéo Timeline vào đây
 
     void Start()
@@ -36,7 +37,7 @@ public class FixCar : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Interact") && inReach)
+        if (Input.GetButtonDown("Interact") && inReach && AllToolsActive())
         {
             if (timeline != null)
             {
@@ -44,4 +45,17 @@ public class FixCar : MonoBehaviour
             }
         }
     }
+
+    bool AllToolsActive()
+    {
+        foreach (GameObject tool in Tools)
+        {
+            if (tool == null || !tool.activeInHierarchy)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
