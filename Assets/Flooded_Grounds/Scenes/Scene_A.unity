@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6912558087254282030, guid: af737a065104be044970185d5ba17d43, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.912
+      value: -0.247
       objectReference: {fileID: 0}
     - target: {fileID: -3444166053727548003, guid: af737a065104be044970185d5ba17d43, type: 3}
       propertyPath: m_LocalPosition.x
@@ -45524,8 +45524,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.99, y: 0.2, z: -0.13}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.99, y: 0.063646555, z: 0.13}
+  m_Center: {x: 5.270498e-25, y: -0.0031351054, z: 7.617869e-17}
 --- !u!95 &335886380
 Animator:
   serializedVersion: 7
@@ -116898,8 +116898,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.23, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05884432, z: 0.1}
+  m_Center: {x: -4.840433e-24, y: 0.005532957, z: -7.200062e-17}
 --- !u!1001 &879401618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169399,7 +169399,7 @@ GameObject:
   - component: {fileID: 1245084370}
   - component: {fileID: 1245084369}
   m_Layer: 6
-  m_Name: PickUp
+  m_Name: PickUpSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210378,6 +210378,10 @@ PrefabInstance:
       value: Batterry
       objectReference: {fileID: 0}
     - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 21894469}
+    - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
       propertyPath: Battery
       value: 
       objectReference: {fileID: 235600442}
@@ -210393,6 +210397,10 @@ PrefabInstance:
       propertyPath: pickUpSound
       value: 
       objectReference: {fileID: 1245084369}
+    - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
+      propertyPath: flashlightScript
+      value: 
+      objectReference: {fileID: 21894482}
     - target: {fileID: 6316446747954442932, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.8
@@ -286642,8 +286650,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9790039, y: 0.22801594, z: 0}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9790039, y: 0.079403505, z: 0}
+  m_Center: {x: 3.4965408e-24, y: -0.0048959265, z: 6.6043248e-15}
 --- !u!114 &2123120231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290494,6 +290502,10 @@ PrefabInstance:
       value: Batterry
       objectReference: {fileID: 0}
     - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 21894469}
+    - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
       propertyPath: Battery
       value: 
       objectReference: {fileID: 235600442}
@@ -290504,11 +290516,15 @@ PrefabInstance:
     - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
       propertyPath: pickUpText
       value: 
-      objectReference: {fileID: 1245084368}
+      objectReference: {fileID: 315160968}
     - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
       propertyPath: pickUpSound
       value: 
       objectReference: {fileID: 1245084369}
+    - target: {fileID: 5303868970743992431, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
+      propertyPath: flashlightScript
+      value: 
+      objectReference: {fileID: 21894482}
     - target: {fileID: 6316446747954442932, guid: 85e85b2a22d7e7e428c19161b1d16c23, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.8696897

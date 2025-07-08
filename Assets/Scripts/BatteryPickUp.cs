@@ -6,24 +6,27 @@ using UnityEngine;
 public class BatteryPickUp : MonoBehaviour
 {
     private bool inReach;
-    public TMP_Text Battery;
     public GameObject pickUpText;
-    public GameObject flashlight;
-
     public AudioSource pickUpSound;
 
+    public GameObject player; // <- Kéo object Player vào đây
     private FlashlightAdvanced flashlightScript;
 
     void Start()
     {
         inReach = false;
         pickUpText.SetActive(false);
-        flashlightScript = flashlight.GetComponent<FlashlightAdvanced>();
+
+        flashlightScript = player.GetComponent<FlashlightAdvanced>();
+        if (flashlightScript == null)
+        {
+            Debug.LogWarning("FlashlightAdvanced không được tìm thấy trên Player!");
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.CompareTag("Reach"))
         {
             inReach = true;
             pickUpText.SetActive(true);
@@ -32,7 +35,7 @@ public class BatteryPickUp : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Reach")
+        if (other.CompareTag("Reach"))
         {
             inReach = false;
             pickUpText.SetActive(false);
@@ -44,7 +47,7 @@ public class BatteryPickUp : MonoBehaviour
         if (Input.GetButtonDown("Interact") && inReach)
         {
             pickUpSound.Play();
-            flashlightScript.batteries += 1; // 👉 Cập nhật vào script đèn pin
+            flashlightScript.batteries += 1;
             inReach = false;
             pickUpText.SetActive(false);
             Destroy(gameObject);
