@@ -1,21 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BatteryPickUp : MonoBehaviour
 {
     private bool inReach;
-
+    public TMP_Text Battery;
     public GameObject pickUpText;
-    private GameObject flashlight;
+    public GameObject flashlight;
 
     public AudioSource pickUpSound;
+
+    private FlashlightAdvanced flashlightScript;
 
     void Start()
     {
         inReach = false;
         pickUpText.SetActive(false);
-        flashlight = GameObject.Find("flashlight");
+        flashlightScript = flashlight.GetComponent<FlashlightAdvanced>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -25,7 +28,6 @@ public class BatteryPickUp : MonoBehaviour
             inReach = true;
             pickUpText.SetActive(true);
         }
-
     }
 
     void OnTriggerExit(Collider other)
@@ -37,19 +39,15 @@ public class BatteryPickUp : MonoBehaviour
         }
     }
 
-
-
-
     void Update()
     {
-        if(Input.GetButtonDown("Interact") && inReach)
+        if (Input.GetButtonDown("Interact") && inReach)
         {
-            flashlight.GetComponent<FlashlightAdvanced>().batteries += 1;
             pickUpSound.Play();
+            flashlightScript.batteries += 1; // 👉 Cập nhật vào script đèn pin
             inReach = false;
             pickUpText.SetActive(false);
             Destroy(gameObject);
         }
-        
     }
 }
