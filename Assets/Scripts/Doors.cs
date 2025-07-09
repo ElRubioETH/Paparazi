@@ -7,7 +7,8 @@ public class Doors : MonoBehaviour
     public AudioSource doorSound;
 
     public bool inReach;
-    private bool isOpen = false;
+    public bool isOpen = false;
+    public bool IsOpen => isOpen;
 
     void Start()
     {

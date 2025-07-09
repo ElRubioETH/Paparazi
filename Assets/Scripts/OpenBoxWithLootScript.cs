@@ -22,6 +22,8 @@ public class OpenBoxWithLootScript : MonoBehaviour
 
     public int randomNumber;
 
+    public AudioSource audioSource;
+    public AudioClip dialogueClip;
 
 
     void Start()
@@ -78,8 +80,11 @@ public class OpenBoxWithLootScript : MonoBehaviour
 
         else if (!isOpen && !keyOBNeeded.activeInHierarchy && inReach && Input.GetButtonDown("Interact"))
         {
+
             openText.SetActive(false);
             keyMissingText.SetActive(true);
+            if (audioSource != null && dialogueClip != null)
+                audioSource.PlayOneShot(dialogueClip);
         }
 
         if (isOpen)

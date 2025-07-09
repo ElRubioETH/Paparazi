@@ -74,6 +74,7 @@ public class ReadNotes : MonoBehaviour
         hud.SetActive(true);
         inv.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = true;
-
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

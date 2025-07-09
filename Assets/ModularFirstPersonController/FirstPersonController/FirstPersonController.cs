@@ -22,7 +22,9 @@ public class FirstPersonController : MonoBehaviour
     #region Audio Clips
     public AudioSource audioSource;
     public AudioClip walkClip;
-
+    public AudioClip walkDirt;
+    public AudioClip walkWood;
+    public AudioClip walkConcrete;
     private bool isPlayingFootstep = false;
     #endregion
     #region Camera Movement Variables
@@ -539,23 +541,46 @@ public class FirstPersonController : MonoBehaviour
     }
     private void PlayFootstepSound()
     {
-        if (!isGrounded || !isWalking || isPlayingFootstep || audioSource == null || walkClip == null)
+        if (!isGrounded || !isWalking || isPlayingFootstep || audioSource == null)
             return;
 
-        isPlayingFootstep = true;
+        int groundLayer = -1;
+        Ray ray = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+        {
+            groundLayer = hit.collider.gameObject.layer;
+        }
 
-        audioSource.PlayOneShot(walkClip);
+        AudioClip selectedClip = null;
+        string layerName = LayerMask.LayerToName(groundLayer);
 
-        // Tính thời gian delay khác nhau tùy theo trạng thái di chuyển
-        float delay = 0.4f; // default walk
+        switch (layerName)
+        {
+            case "Dirt":
+                selectedClip = walkDirt;
+                break;
+            case "Wood":
+                selectedClip = walkWood;
+                break;
+            case "Concrete":
+                selectedClip = walkConcrete;
+                break;
+        }
 
-        if (isSprinting)
-            delay = 0.25f; // nhanh hơn
-        else if (isCrouched)
-            delay = 0.6f; // chậm hơn
+        if (selectedClip != null)
+        {
+            isPlayingFootstep = true;
+            audioSource.PlayOneShot(selectedClip);
 
-        StartCoroutine(ResetFootstepSound(delay));
+            float delay = 0.4f;
+            if (isSprinting) delay = 0.25f;
+            else if (isCrouched) delay = 0.6f;
+
+            StartCoroutine(ResetFootstepSound(delay));
+        }
     }
+
+
 
     private IEnumerator ResetFootstepSound(float delay)
     {
@@ -655,7 +680,9 @@ public class FirstPersonController : MonoBehaviour
         GUILayout.Label("Audio Setup", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 13 });
 
         fpc.audioSource = (AudioSource)EditorGUILayout.ObjectField(new GUIContent("Audio Source", "Nguồn phát âm thanh (AudioSource)."), fpc.audioSource, typeof(AudioSource), true);
-        fpc.walkClip = (AudioClip)EditorGUILayout.ObjectField(new GUIContent("Walk Clip", "Âm thanh khi đi bộ"), fpc.walkClip, typeof(AudioClip), false);
+        fpc.walkDirt = (AudioClip)EditorGUILayout.ObjectField(new GUIContent("Walk Dirt", "Âm thanh đi trên đất"), fpc.walkDirt, typeof(AudioClip), false);
+        fpc.walkWood = (AudioClip)EditorGUILayout.ObjectField(new GUIContent("Walk Wood", "Âm thanh đi trên gỗ"), fpc.walkWood, typeof(AudioClip), false);
+        fpc.walkConcrete = (AudioClip)EditorGUILayout.ObjectField(new GUIContent("Walk Concrete", "Âm thanh đi trên xi măng"), fpc.walkConcrete, typeof(AudioClip), false);
         #region Movement Setup
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
