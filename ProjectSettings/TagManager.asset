@@ -8,6 +8,7 @@ TagManager:
   - Reach
   - Enemy
   - Monster
+  - Closet
   layers:
   - Default
   - TransparentFX
@@ -21,8 +22,8 @@ TagManager:
   - Wood
   - Concrete
   - SafeRoom
-  - 
-  - 
+  - Obstacles
+  - Hiding
   - 
   - 
   - 
