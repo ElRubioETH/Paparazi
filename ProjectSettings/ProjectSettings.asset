@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: f2c6bc7c423e7f4418833bc03a6e56d3
+  productGUID: 6db4d9ee05c50674eb3fef967bba8184
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -42,12 +42,12 @@ PlayerSettings:
   m_SplashScreenLogos: []
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
-  defaultScreenWidth: 1920
-  defaultScreenHeight: 1080
+  defaultScreenWidth: 1024
+  defaultScreenHeight: 768
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
-  m_ActiveColorSpace: 1
+  m_ActiveColorSpace: 0
   unsupportedMSAAFallback: 0
   m_SpriteBatchMaxVertexCount: 65535
   m_SpriteBatchVertexThreshold: 300
@@ -69,7 +69,7 @@ PlayerSettings:
   disableDepthAndStencilBuffers: 0
   androidStartInFullscreen: 1
   androidRenderOutsideSafeArea: 1
-  androidUseSwappy: 1
+  androidUseSwappy: 0
   androidBlitType: 0
   androidResizeableActivity: 1
   androidDefaultWindowWidth: 1920
@@ -134,7 +134,7 @@ PlayerSettings:
   switchNVNGraphicsFirmwareMemory: 32
   vulkanNumSwapchainBuffers: 3
   vulkanEnableSetSRGBWrite: 0
-  vulkanEnablePreTransform: 1
+  vulkanEnablePreTransform: 0
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
@@ -162,14 +162,13 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
-  applicationIdentifier:
-    Standalone: com.DefaultCompany.3D-Project
+  applicationIdentifier: {}
   buildNumber:
     Standalone: 0
     VisionOS: 0
     iPhone: 0
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 1
+  overrideDefaultApplicationIdentifier: 0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 23
   AndroidTargetSdkVersion: 0
@@ -250,8 +249,8 @@ PlayerSettings:
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
   shaderPrecisionModel: 0
-  clonedFromGUID: c0afd0d1d80e3634a9dac47e8a0426ea
-  templatePackageId: com.unity.template.3d@9.0.2
+  clonedFromGUID: bdc8d2f1d15a9e443ad2a4c2f11cdcfb
+  templatePackageId: 
   templateDefaultScene: Assets/Scenes/SampleScene.unity
   useCustomMainManifest: 0
   useCustomLauncherManifest: 0
@@ -264,7 +263,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 2
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
+  AndroidKeystoreName: '{inproject}: '
   AndroidKeyaliasName: 
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
@@ -283,7 +282,7 @@ PlayerSettings:
   AndroidMinifyRelease: 0
   AndroidMinifyDebug: 0
   AndroidValidateAppBundleSize: 1
-  AndroidAppBundleSizeToValidate: 150
+  AndroidAppBundleSizeToValidate: 200
   AndroidReportGooglePlayAppDependencies: 1
   androidSymbolsSizeThreshold: 800
   m_BuildTargetIcons: []
@@ -306,31 +305,43 @@ PlayerSettings:
     m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs:
+  - m_BuildTarget: WindowsStandaloneSupport
+    m_GraphicsJobs: 0
   - m_BuildTarget: MacStandaloneSupport
     m_GraphicsJobs: 0
-  - m_BuildTarget: Switch
-    m_GraphicsJobs: 1
-  - m_BuildTarget: MetroSupport
-    m_GraphicsJobs: 1
-  - m_BuildTarget: AppleTVSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: BJMSupport
-    m_GraphicsJobs: 1
   - m_BuildTarget: LinuxStandaloneSupport
-    m_GraphicsJobs: 1
-  - m_BuildTarget: PS4Player
-    m_GraphicsJobs: 1
-  - m_BuildTarget: iOSSupport
-    m_GraphicsJobs: 0
-  - m_BuildTarget: WindowsStandaloneSupport
-    m_GraphicsJobs: 1
-  - m_BuildTarget: XboxOnePlayer
-    m_GraphicsJobs: 1
-  - m_BuildTarget: LuminSupport
     m_GraphicsJobs: 0
   - m_BuildTarget: AndroidPlayer
     m_GraphicsJobs: 0
+  - m_BuildTarget: iOSSupport
+    m_GraphicsJobs: 0
+  - m_BuildTarget: PS4Player
+    m_GraphicsJobs: 0
+  - m_BuildTarget: PS5Player
+    m_GraphicsJobs: 0
+  - m_BuildTarget: XboxOnePlayer
+    m_GraphicsJobs: 0
+  - m_BuildTarget: GameCoreXboxOneSupport
+    m_GraphicsJobs: 0
+  - m_BuildTarget: GameCoreScarlettSupport
+    m_GraphicsJobs: 0
+  - m_BuildTarget: Switch
+    m_GraphicsJobs: 0
   - m_BuildTarget: WebGLSupport
+    m_GraphicsJobs: 0
+  - m_BuildTarget: MetroSupport
+    m_GraphicsJobs: 0
+  - m_BuildTarget: AppleTVSupport
+    m_GraphicsJobs: 0
+  - m_BuildTarget: VisionOSPlayer
+    m_GraphicsJobs: 0
+  - m_BuildTarget: CloudRendering
+    m_GraphicsJobs: 0
+  - m_BuildTarget: EmbeddedLinux
+    m_GraphicsJobs: 0
+  - m_BuildTarget: QNX
+    m_GraphicsJobs: 0
+  - m_BuildTarget: ReservedCFE
     m_GraphicsJobs: 0
   m_BuildTargetGraphicsJobMode:
   - m_BuildTarget: PS4Player
@@ -366,29 +377,11 @@ PlayerSettings:
     Android: 1
     iPhone: 1
     tvOS: 1
-  m_BuildTargetGroupLightmapEncodingQuality:
-  - serializedVersion: 2
-    m_BuildTarget: Android
-    m_EncodingQuality: 1
-  - serializedVersion: 2
-    m_BuildTarget: iPhone
-    m_EncodingQuality: 1
-  - serializedVersion: 2
-    m_BuildTarget: tvOS
-    m_EncodingQuality: 1
+  m_BuildTargetGroupLightmapEncodingQuality: []
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
-  m_BuildTargetNormalMapEncoding:
-  - m_BuildTarget: Android
-    m_Encoding: 1
-  - m_BuildTarget: iPhone
-    m_Encoding: 1
-  - m_BuildTarget: tvOS
-    m_Encoding: 1
-  m_BuildTargetDefaultTextureCompressionFormat:
-  - serializedVersion: 3
-    m_BuildTarget: Android
-    m_Formats: 03000000
+  m_BuildTargetNormalMapEncoding: []
+  m_BuildTargetDefaultTextureCompressionFormat: []
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -675,7 +668,22 @@ PlayerSettings:
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   il2cppStacktraceInformation: {}
-  managedStrippingLevel: {}
+  managedStrippingLevel:
+    Android: 1
+    EmbeddedLinux: 1
+    GameCoreScarlett: 1
+    GameCoreXboxOne: 1
+    Nintendo Switch: 1
+    PS4: 1
+    PS5: 1
+    QNX: 1
+    ReservedCFE: 1
+    VisionOS: 1
+    WebGL: 1
+    Windows Store Apps: 1
+    XboxOne: 1
+    iPhone: 1
+    tvOS: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
@@ -688,14 +696,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Horror
+  metroPackageName: Paparazi
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Horror
+  metroApplicationDescription: Paparazi
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -745,7 +753,13 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Analytics: 1
+    Build: 0
+    Collab: 1
+    Game Performance: 0
+    Purchasing: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -765,12 +779,12 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 2
+  activeInputHandler: 0
   windowsGamepadBackendHint: 0
   cloudProjectId: d705d157-9d82-4da0-bcde-f8aac106debd
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Horror
+  projectName: Dungeon Generator 3D
   organizationId: el_rubio
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
