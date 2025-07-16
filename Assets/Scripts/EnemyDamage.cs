@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
@@ -44,6 +42,6 @@ public class EnemyDamage : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

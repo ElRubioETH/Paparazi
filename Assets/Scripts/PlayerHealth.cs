@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
@@ -43,7 +41,7 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
 
-        if(health <= 0)
+        if (health <= 0)
         {
             player.GetComponent<FirstPersonController>().enabled = false;
             Cursor.visible = true;
@@ -57,6 +55,6 @@ public class PlayerHealth : MonoBehaviour
         {
             health = 100;
         }
-        
+
     }
 }

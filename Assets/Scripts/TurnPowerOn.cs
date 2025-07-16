@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TurnPowerOn : MonoBehaviour
 {
@@ -50,7 +48,7 @@ public class TurnPowerOn : MonoBehaviour
             powerIsOn = true;
         }
 
-        if(powerIsOn)
+        if (powerIsOn)
         {
             foreach (GameObject ob in lights)
             {

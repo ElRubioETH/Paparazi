@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Target : MonoBehaviour
 {
     public GameObject OriginalOB;
     public GameObject ChangeOB;
     public Animator ANI;
-    
+
     public float health = 100f;
 
     public bool animate;
@@ -18,7 +16,7 @@ public class Target : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health -= amount;
-        if(health <= 0f && animate)
+        if (health <= 0f && animate)
         {
             Animate();
         }

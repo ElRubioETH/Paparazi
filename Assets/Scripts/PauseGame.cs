@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PauseGame : MonoBehaviour
 {
@@ -42,15 +40,15 @@ public class PauseGame : MonoBehaviour
             off = true;
             on = false;
         }
-        
+
     }
 
     public void Resume()
     {
-            Time.timeScale = 1;
-            menu.SetActive(false);
-            off = true;
-            on = false;
+        Time.timeScale = 1;
+        menu.SetActive(false);
+        off = true;
+        on = false;
 
     }
 

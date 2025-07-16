@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OpenBoxScript : MonoBehaviour
 {
@@ -62,7 +60,7 @@ public class OpenBoxScript : MonoBehaviour
             keyMissingText.SetActive(true);
         }
 
-        if(isOpen)
+        if (isOpen)
         {
             boxOB.GetComponent<BoxCollider>().enabled = false;
             boxOB.GetComponent<OpenBoxScript>().enabled = false;

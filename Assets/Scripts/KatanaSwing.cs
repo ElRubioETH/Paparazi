@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UnityEngine.EventSystems;
-using System.Collections;            // <- Để dùng IEnumerator và Coroutine
+﻿using System.Collections;            // <- Để dùng IEnumerator và Coroutine
+using UnityEngine;
 
 public class KatanaSwing : MonoBehaviour
 {

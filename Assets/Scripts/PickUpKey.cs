@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class PickUpKey : MonoBehaviour
@@ -56,6 +54,6 @@ public class PickUpKey : MonoBehaviour
                 Afterpickup.Invoke();
         }
 
-        
+
     }
 }

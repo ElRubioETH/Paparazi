@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeaponAttachments : MonoBehaviour
 {
@@ -82,17 +80,17 @@ public class WeaponAttachments : MonoBehaviour
             extendedMag = true;
         }
 
-        if(extendedMag && ExtMagOff)
+        if (extendedMag && ExtMagOff)
         {
             AddAmmo();
         }
 
-        if(firepowerOB.activeInHierarchy && fpOff)
+        if (firepowerOB.activeInHierarchy && fpOff)
         {
             firepower = true;
         }
 
-        if(firepower)
+        if (firepower)
         {
             AddDamage();
         }

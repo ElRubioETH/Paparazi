@@ -9,11 +9,11 @@ public class Active : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        QuestPan.gameObject.SetActive(false);   
+        QuestPan.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
-    
+
     public void show()
     {
         QuestPan.gameObject.SetActive(true);

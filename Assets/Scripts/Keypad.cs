@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -71,7 +69,7 @@ public class Keypad : MonoBehaviour
 
     public void Exit()
     {
-        if( hasPlayed == false)
+        if (hasPlayed == false)
         {
             audioSource.Play();
         }
@@ -87,7 +85,7 @@ public class Keypad : MonoBehaviour
     {
         if (textOB.text == "Right" && animate && !hasPlayed)
         {
-            keypadText.SetActive(false) ;
+            keypadText.SetActive(false);
             hasPlayed = true;
             ANI.SetBool("animate", true);
             Debug.Log("its open");
@@ -96,7 +94,7 @@ public class Keypad : MonoBehaviour
         }
 
 
-        if(keypadOB.activeInHierarchy)
+        if (keypadOB.activeInHierarchy)
         {
             hud.SetActive(false);
             inv.SetActive(false);

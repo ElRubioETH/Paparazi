@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class LookAtObjects : MonoBehaviour
 {
@@ -13,7 +10,7 @@ public class LookAtObjects : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -39,7 +36,7 @@ public class LookAtObjects : MonoBehaviour
         {
             if (audioSource != null && dialogueClip != null)
                 audioSource.PlayOneShot(dialogueClip);
-        }   
+        }
 
     }
 }

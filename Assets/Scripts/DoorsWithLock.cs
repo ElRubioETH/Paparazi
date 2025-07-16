@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DoorsWithLock : MonoBehaviour
 {
@@ -53,12 +51,12 @@ public class DoorsWithLock : MonoBehaviour
 
     void Update()
     {
-        if(KeyINV.activeInHierarchy)
+        if (KeyINV.activeInHierarchy)
         {
             locked = false;
             hasKey = true;
-        }  
-        
+        }
+
         else
         {
             hasKey = false;
@@ -78,14 +76,14 @@ public class DoorsWithLock : MonoBehaviour
         if (locked && inReach && Input.GetButtonDown("Interact"))
         {
             lockedSound.Play();
-            
+
         }
 
 
 
 
     }
-    void DoorOpens ()
+    void DoorOpens()
     {
         if (unlocked)
         {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TurnPowerOff : MonoBehaviour
 {
@@ -15,7 +13,7 @@ public class TurnPowerOff : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         breakerBox = GameObject.Find("BreakerBox");
-        
+
     }
 
     public void OnTriggerEnter(Collider other)

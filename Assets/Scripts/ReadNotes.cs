@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class ReadNotes : MonoBehaviour
@@ -26,7 +24,7 @@ public class ReadNotes : MonoBehaviour
         pickUpText.SetActive(false);
 
         inReach = false;
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -53,7 +51,7 @@ public class ReadNotes : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Interact") && inReach)
+        if (Input.GetButtonDown("Interact") && inReach)
         {
             noteUI.SetActive(true);
             pickUpSound.Play();
@@ -63,7 +61,7 @@ public class ReadNotes : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-        
+
     }
 
 

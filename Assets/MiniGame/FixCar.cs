@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;  // Nếu bạn dùng TextMeshPro (khuyên dùng)
 using UnityEngine;
 using UnityEngine.Playables;
-using TMPro;  // Nếu bạn dùng TextMeshPro (khuyên dùng)
-using UnityEngine.Events;
 
 public class FixCar : MonoBehaviour
 {

@@ -14,7 +14,7 @@ public class DragDropItem : MonoBehaviour
     {
         PlayerReach playerReach = GetComponent<PlayerReach>();
 
-        if (playerReach != null && playerReach.IsRaycastHit()) 
+        if (playerReach != null && playerReach.IsRaycastHit())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

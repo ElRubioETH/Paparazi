@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeaponsSwitch : MonoBehaviour
 {
@@ -29,15 +27,15 @@ public class WeaponsSwitch : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("1"))
+        if (Input.GetButtonDown("1"))
         {
             object01.SetActive(false);
             object02.SetActive(false);
             object03.SetActive(false);
             object04.SetActive(false);
         }
-        
-        if (haveKatana.activeInHierarchy &&Input.GetButtonDown("2"))
+
+        if (haveKatana.activeInHierarchy && Input.GetButtonDown("2"))
         {
             object01.SetActive(true);
             object02.SetActive(false);

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using TMPro;  // Nếu bạn dùng TextMeshPro (khuyên dùng)
+﻿using TMPro;  // Nếu bạn dùng TextMeshPro (khuyên dùng)
+using UnityEngine;
 
 public class Quest1 : MonoBehaviour
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ObjectRandomSpawn1 : MonoBehaviour
 {
@@ -18,6 +16,6 @@ public class ObjectRandomSpawn1 : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

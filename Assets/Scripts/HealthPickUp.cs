@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthPickUp : MonoBehaviour
@@ -51,7 +50,7 @@ public class HealthPickUp : MonoBehaviour
 
     void Update()
     {
-        if(inReach && Input.GetButtonDown("Interact") && player.GetComponent<PlayerHealth>().health < 100)
+        if (inReach && Input.GetButtonDown("Interact") && player.GetComponent<PlayerHealth>().health < 100)
         {
             inReach = false;
             healthPickUpSound.Play();

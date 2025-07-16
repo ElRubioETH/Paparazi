@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightSwitch : MonoBehaviour
 {
@@ -54,7 +52,7 @@ public class LightSwitch : MonoBehaviour
 
     void Update()
     {
-        if(lightsAreOn && inReach && Input.GetButtonDown("Interact"))
+        if (lightsAreOn && inReach && Input.GetButtonDown("Interact"))
         {
             lightOB.SetActive(false);
             onOB.SetActive(false);

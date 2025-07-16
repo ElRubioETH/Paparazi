@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ammo : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class Ammo : MonoBehaviour
     public int ammoBoxAmount;
 
     public bool inreach;
-   
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -37,7 +35,7 @@ public class Ammo : MonoBehaviour
 
     void Update()
     {
-        if(inreach && Input.GetButtonDown("Interact"))
+        if (inreach && Input.GetButtonDown("Interact"))
         {
             weaponOB.GetComponent<GunSystem>().ammoCache += ammoBoxAmount;
             pickUpText.SetActive(false);

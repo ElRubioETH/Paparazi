@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightCandles : MonoBehaviour
 {
@@ -44,7 +42,7 @@ public class LightCandles : MonoBehaviour
 
     void Update()
     {
-        if(lighterOB.activeInHierarchy && inReach && unlit && Input.GetButtonDown("Interact"))
+        if (lighterOB.activeInHierarchy && inReach && unlit && Input.GetButtonDown("Interact"))
         {
             flame.SetActive(true);
             lightText.SetActive(false);

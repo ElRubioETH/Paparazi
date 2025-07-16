@@ -9,6 +9,7 @@ public class SpawnMoverTrigger : MonoBehaviour
     [Header("References from Scene")]
     public Wardrobe wardrobeScript;
     public Doors doorScript;
+    public Transform player; // Gán player trong Inspector
 
     private bool hasSpawned = false;
     private void Start()

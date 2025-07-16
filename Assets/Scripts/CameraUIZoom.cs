@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraUIZoom : MonoBehaviour
 {
@@ -8,7 +6,7 @@ public class CameraUIZoom : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButton("ZoomButton"))
+        if (Input.GetButton("ZoomButton"))
         {
             cam.SetBool("Zoom", true);
         }
@@ -17,6 +15,6 @@ public class CameraUIZoom : MonoBehaviour
         {
             cam.SetBool("Zoom", false);
         }
-        
+
     }
 }

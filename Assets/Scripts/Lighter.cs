@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Lighter : MonoBehaviour
 {
@@ -24,14 +22,14 @@ public class Lighter : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire1") && lighter.activeInHierarchy)
+        if (Input.GetButtonDown("Fire1") && lighter.activeInHierarchy)
         {
             flames.SetActive(true);
             lighterSound.Play();
             isOn = true;
         }
 
-        else if(Input.GetButtonDown("Fire1") && isOn)
+        else if (Input.GetButtonDown("Fire1") && isOn)
         {
             return;
         }

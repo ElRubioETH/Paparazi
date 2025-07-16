@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OpenKeyPad : MonoBehaviour
 {
@@ -40,11 +38,11 @@ public class OpenKeyPad : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Interact") && inReach)
+        if (Input.GetButtonDown("Interact") && inReach)
         {
             keypadOB.SetActive(true);
         }
-        
+
 
     }
 }

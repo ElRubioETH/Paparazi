@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ToggleLightsOff : MonoBehaviour
 {
@@ -26,10 +24,10 @@ public class ToggleLightsOff : MonoBehaviour
 
     void Update()
     {
-        if(useTimes == 0)
+        if (useTimes == 0)
         {
             Destroy(gameObject);
         }
-        
+
     }
 }

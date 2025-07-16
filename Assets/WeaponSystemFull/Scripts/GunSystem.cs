@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -117,7 +116,7 @@ public class GunSystem : MonoBehaviour
             noAmmoSound.Play();
         }
 
-        else if(Input.GetButtonUp("Fire1") && canShoot)
+        else if (Input.GetButtonUp("Fire1") && canShoot)
         {
 
             StopRecoil();
@@ -127,7 +126,7 @@ public class GunSystem : MonoBehaviour
 
         if (magazineSize == 0)
         {
-            ammoText.GetComponent<Text>().text = "Reload" ;
+            ammoText.GetComponent<Text>().text = "Reload";
             anim.SetBool("empty", true);
         }
 
@@ -147,12 +146,12 @@ public class GunSystem : MonoBehaviour
             ammoNeeded -= ammoNeeded;
             isreloading = true;
             StartCoroutine(ReloadTimer());
-            
+
         }
 
         //Stops Bugs With Pressing Reload More Than Once:
 
-        else if(isreloading)
+        else if (isreloading)
         {
 
             return;
@@ -176,17 +175,17 @@ public class GunSystem : MonoBehaviour
 
         //Our Swaying Function Being Put To Action:
 
-            float movementX = -Input.GetAxis("Mouse X") * amount;
-            float movementY = -Input.GetAxis("Mouse Y") * amount;
-            movementX = Mathf.Clamp(movementX, -maxAmount, maxAmount);
-            movementY = Mathf.Clamp(movementY, -maxAmount, maxAmount);
+        float movementX = -Input.GetAxis("Mouse X") * amount;
+        float movementY = -Input.GetAxis("Mouse Y") * amount;
+        movementX = Mathf.Clamp(movementX, -maxAmount, maxAmount);
+        movementY = Mathf.Clamp(movementY, -maxAmount, maxAmount);
 
         //Making Sure The Sway Goes Back To Original Postion:
 
-            Vector3 finalPosition = new Vector3(movementX, movementY, 0);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, finalPosition + initialPosition, Time.deltaTime * smoothAmount);
-        
-     }
+        Vector3 finalPosition = new Vector3(movementX, movementY, 0);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, finalPosition + initialPosition, Time.deltaTime * smoothAmount);
+
+    }
 
 
     //If Our Weapon Is A Gun:
@@ -228,7 +227,7 @@ public class GunSystem : MonoBehaviour
             }
 
         }
-     }
+    }
 
 
     //If Our Weapon Is Melee:

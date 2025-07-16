@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuLogic : MonoBehaviour
@@ -23,8 +21,8 @@ public class MainMenuLogic : MonoBehaviour
 
         mainMenu.GetComponent<Canvas>().enabled = true;
         optionsMenu.GetComponent<Canvas>().enabled = false;
-        extrasMenu.GetComponent<Canvas>().enabled = false; 
-        loading.GetComponent<Canvas>().enabled = false; 
+        extrasMenu.GetComponent<Canvas>().enabled = false;
+        loading.GetComponent<Canvas>().enabled = false;
     }
 
     public void StartButton()
@@ -68,6 +66,6 @@ public class MainMenuLogic : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

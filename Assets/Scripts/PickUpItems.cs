@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PickUpItems : MonoBehaviour
 {
@@ -33,12 +31,12 @@ public class PickUpItems : MonoBehaviour
 
     void Update()
     {
-        if(inReach && Input.GetButtonDown("Interact"))
+        if (inReach && Input.GetButtonDown("Interact"))
         {
             pickupOB.SetActive(false);
             activatingOB.SetActive(true);
             pickupText.SetActive(false);
         }
-        
+
     }
 }

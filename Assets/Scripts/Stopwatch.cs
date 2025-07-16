@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class Stopwatch : MonoBehaviour
 {
@@ -22,6 +20,6 @@ public class Stopwatch : MonoBehaviour
 
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
         currentTimeText.text = time.ToString(@"mm\:ss\:fff");
-        
+
     }
 }

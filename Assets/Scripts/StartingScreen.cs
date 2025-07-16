@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StartingScreen : MonoBehaviour
@@ -32,6 +31,6 @@ public class StartingScreen : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

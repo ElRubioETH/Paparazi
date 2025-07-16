@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Pool;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class FieldOfView : MonoBehaviour
 
     public Animator animator;
     private AudioSource audioSource;
-    
+
     [Header("Health Settings")]
     public float maxHealth = 100f;
     private float currentHealth;
@@ -403,7 +402,7 @@ public class FieldOfView : MonoBehaviour
             PlaySound(dieClip);
 
             agent.isStopped = true;
-            Invoke(nameof(InvokeDeathEvent),0.5f);
+            Invoke(nameof(InvokeDeathEvent), 0.5f);
             StartCoroutine(DelayedDestroy(2f)); // Chờ 2s rồi huỷ
         }
     }

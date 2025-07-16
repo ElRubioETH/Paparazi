@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
@@ -26,7 +24,7 @@ public class Flashlight : MonoBehaviour
 
     void Update()
     {
-        if(off && Input.GetButtonDown("F"))
+        if (off && Input.GetButtonDown("F"))
         {
             flashlight.SetActive(true);
             turnOn.Play();
