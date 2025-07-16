@@ -5886,7 +5886,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hud: {fileID: 1157587365}
   inv: {fileID: 1778707052}
-  deathScreen: {fileID: 375520781}
   player: {fileID: 21894469}
   health: 100
   healthSlider: {fileID: 2038696582}
@@ -10875,6 +10874,10 @@ PrefabInstance:
     - target: {fileID: 495364, guid: 2c33c759b6bfb1448a79429a0c761b44, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393040, guid: 2c33c759b6bfb1448a79429a0c761b44, type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27923,6 +27926,10 @@ PrefabInstance:
     - target: {fileID: 495364, guid: 2c33c759b6bfb1448a79429a0c761b44, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393040, guid: 2c33c759b6bfb1448a79429a0c761b44, type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -83985,7 +83992,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 3
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -216331,7 +216338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1533987063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258006,6 +258013,10 @@ PrefabInstance:
     - target: {fileID: 495364, guid: 1833ba93709e80944b9f2627881f3f4c, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393040, guid: 1833ba93709e80944b9f2627881f3f4c, type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

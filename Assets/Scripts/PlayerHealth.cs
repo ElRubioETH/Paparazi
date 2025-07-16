@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public GameObject hud;
     public GameObject inv;
-    public GameObject deathScreen;
     public GameObject player;
 
     public float health = 100f;
@@ -14,7 +14,6 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        deathScreen.SetActive(false);
         currentHealth = maxHealth;
         if (healthSlider != null)
         {
@@ -48,7 +47,8 @@ public class PlayerHealth : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             hud.SetActive(false);
             inv.SetActive(false);
-            deathScreen.SetActive(true);
+            SceneManager.LoadScene("Stage2");
+
         }
 
         if (health > 100)
