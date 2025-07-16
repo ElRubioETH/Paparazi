@@ -7,7 +7,7 @@ public class ShakeZoneTrigger : MonoBehaviour
 
     public bool shake;
 
-    public void awake()
+    public void Start()
     {
         shake = false;
     }
