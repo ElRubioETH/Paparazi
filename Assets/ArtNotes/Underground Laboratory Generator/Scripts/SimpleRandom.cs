@@ -18,7 +18,7 @@ namespace ArtNotes.UndergroundLaboratoryGenerator
 
         private void Start()
         {
-            if (EnableChance && Random.Range(0, 100) > CreateChance) Destroy(gameObject);
+            if (EnableChance && Random.Range(0, 100) > CreateChance) 
 
             if (EnableChildrensDestroy) StartCoroutine(ChildrenDestroy());
 

@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rush: {fileID: 11400000, guid: 5cf496e8b0d37c44e858172aa6630d2b, type: 2}
+  shake: 0
 --- !u!1 &8675915457954794080
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +135,7 @@ MonoBehaviour:
   minGrowCoef: 1
   maxGrowCoef: 2
   newLegCooldown: 0.001
-  velocity: {x: 0.92212635, y: 0, z: -0.15958908}
+  velocity: {x: -0.0010021415, y: 0, z: -0.8070899}
 --- !u!114 &5212706753501933841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints: []
-  moveSpeed: 10
+  moveSpeed: 5
   arriveThreshold: 1
   rotateSpeed: 5
   DeadPanel: {fileID: 0}
@@ -174,7 +175,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
+  m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &-760815326427608979
 AudioSource:
