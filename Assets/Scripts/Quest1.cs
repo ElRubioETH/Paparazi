@@ -1,53 +1,54 @@
 ﻿using UnityEngine;
-using TMPro;  // Nếu bạn dùng TextMeshPro (khuyên dùng)
+using TMPro;
 
 public class Quest1 : MonoBehaviour
 {
     [Header("UI Text")]
     public TextMeshProUGUI textUI;
     public GameObject questpan;
-    [Header("Tools")]
-    public GameObject hammer;
-    public GameObject drill;
-    public GameObject boltBox;
-    public GameObject lifter;
+
+    [Header("Text Settings")]
+    [TextArea] public string allCollectedText = "Sửa xe";
+    [TextArea] public string questHeader = "Nhặt đồ sửa xe:\n";
+
+    [Header("Tools (gán theo thứ tự: Búa, Máy Khoan, Hộp Ốc Vít, Máy Nâng)")]
+    public GameObject[] tools;
 
     public void Active()
     {
         questpan.SetActive(true);
         if (textUI == null) return;
 
-        // Kiểm tra nếu tất cả đều đã nhặt
         if (IsAllCollected())
         {
-            textUI.text = "Sửa xe";
+            textUI.text = allCollectedText;
         }
         else
         {
-            string status = "Nhặt đồ sửa xe:\n";
-            status += " Búa " + BoolToText(hammer) + "\n";
-            status += " Máy Khoan " + BoolToText(drill) + "\n";
-            status += " Hộp Ốc vít " + BoolToText(boltBox) + "\n";
-            status += " Máy Nâng " + BoolToText(lifter) + "\n";
+            string status = questHeader;
+            foreach (GameObject tool in tools)
+            {
+                if (tool != null)
+                {
+                    status += $" {tool.name} {BoolToText(tool)}\n";
+                }
+            }
             textUI.text = status;
         }
     }
 
     bool IsAllCollected()
     {
-        return hammer != null && hammer.activeInHierarchy &&
-               drill != null && drill.activeInHierarchy &&
-               boltBox != null && boltBox.activeInHierarchy &&
-               lifter != null && lifter.activeInHierarchy;
+        foreach (GameObject tool in tools)
+        {
+            if (tool == null || !tool.activeInHierarchy)
+                return false;
+        }
+        return true;
     }
-
 
     string BoolToText(GameObject obj)
     {
-        if (obj != null && obj.activeInHierarchy)
-        {
-            return "1/1";
-        }
-        return "0/1";
+        return (obj != null && obj.activeInHierarchy) ? "1/1" : "0/1";
     }
 }
