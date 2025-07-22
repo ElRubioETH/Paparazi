@@ -4,18 +4,28 @@ using System.Collections;
 
 public class PaperInteraction : MonoBehaviour
 {
+    [Header("UI & Monster")]
     public GameObject paperUI;
     public GameObject monster;
+
+    [Header("Cài đặt thời gian")]
     public float paperDisplayTime = 5f;
     public float monsterSpawnDistance = 2f;
     public float delayBeforeSceneChange = 5f;
+
+    [Header("Camera và Điều khiển")]
     public Camera mainCamera;
+    public MonoBehaviour mouseLookScript; // Gắn script điều khiển góc nhìn ở đây (vd: MouseLook hoặc FPC)
+
+    [Header("Tên Scene muốn chuyển tới")]
+    public string targetSceneName = "TênSceneMới";
+
     private bool isReading = false;
 
     void Start()
     {
-        paperUI.SetActive(false);
-        monster.SetActive(false);
+        if (paperUI != null) paperUI.SetActive(false);
+        if (monster != null) monster.SetActive(false);
     }
 
     void OnMouseDown()
@@ -23,29 +33,39 @@ public class PaperInteraction : MonoBehaviour
         if (isReading) return;
 
         isReading = true;
-        paperUI.SetActive(true);
+        if (paperUI != null) paperUI.SetActive(true);
 
         StartCoroutine(JumpScareSequence());
     }
 
     IEnumerator JumpScareSequence()
     {
-        // 1. Đọc giấy trong vài giây
+        // 1. Đọc giấy
         yield return new WaitForSeconds(paperDisplayTime);
 
-        // 2. Ẩn UI giấy
-        paperUI.SetActive(false);
+        if (paperUI != null) paperUI.SetActive(false);
 
-        // 3. Quay camera 180 độ
+        // 2. Tắt điều khiển góc nhìn
+        if (mouseLookScript != null)
+            mouseLookScript.enabled = false;
+
+        // 3. Xoay camera 180 độ
         yield return StartCoroutine(RotateCamera());
 
-        // 4. Spawn quái ngay trước mặt sau khi quay xong
-        Vector3 spawnPos = mainCamera.transform.position + mainCamera.transform.forward * monsterSpawnDistance;
-        monster.transform.position = spawnPos;
-        monster.transform.LookAt(mainCamera.transform); // Quái nhìn vào camera
-        monster.SetActive(true);
+        // 4. Bật lại điều khiển góc nhìn
+        if (mouseLookScript != null)
+            mouseLookScript.enabled = true;
 
-        // 5. Đợi vài giây rồi đổi scene
+        // 5. Triệu hồi quái vật phía trước mặt
+        if (monster != null && mainCamera != null)
+        {
+            Vector3 spawnPos = mainCamera.transform.position + mainCamera.transform.forward * monsterSpawnDistance;
+            monster.transform.position = spawnPos;
+            monster.transform.LookAt(mainCamera.transform); // Quái nhìn vào camera
+            monster.SetActive(true);
+        }
+
+        // 6. Đợi rồi chuyển scene
         yield return new WaitForSeconds(delayBeforeSceneChange);
         ChangeScene();
     }
@@ -56,7 +76,7 @@ public class PaperInteraction : MonoBehaviour
         float elapsed = 0f;
 
         Quaternion startRot = mainCamera.transform.rotation;
-        Quaternion endRot = startRot * Quaternion.Euler(0, 180, 0); // Quay 180 độ theo trục Y
+        Quaternion endRot = startRot * Quaternion.Euler(0, 180, 0); // Quay 180 độ quanh trục Y
 
         while (elapsed < duration)
         {
@@ -70,6 +90,9 @@ public class PaperInteraction : MonoBehaviour
 
     void ChangeScene()
     {
-        SceneManager.LoadScene("TênSceneMới"); // 👉 Đổi thành tên thật của scene
+        if (!string.IsNullOrEmpty(targetSceneName))
+            SceneManager.LoadScene(targetSceneName);
+        else
+            Debug.LogWarning("Bạn chưa đặt tên scene để chuyển!");
     }
 }
