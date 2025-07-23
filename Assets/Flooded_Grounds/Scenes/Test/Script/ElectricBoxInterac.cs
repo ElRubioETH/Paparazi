@@ -1,47 +1,144 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
-public class ElectricBoxInteraction : MonoBehaviour
+public class ElectricBox : MonoBehaviour
 {
-    private bool isPlayerNear = false;
-    public GameObject promptText; // Đối tượng UI hiển thị "E"
-    public GameObject miniGameCanvas; // Canvas chứa mini game
+    [Header("Mini Game Settings")]
+    [SerializeField, Tooltip("Container chứa các thành phần của mini-game")] private GameObject miniGameContainer;
+    [SerializeField, Tooltip("TextMeshPro để hiển thị thông báo tương tác")] private TextMeshProUGUI interactionText;
+    [SerializeField, Tooltip("Khoảng cách tối đa để tương tác với hộp điện")] private float interactionDistance = 2f;
 
-    void Start()
+    private bool isPlayerInRange; // Kiểm tra người chơi có trong phạm vi không
+    private bool hasWon; // Trạng thái chiến thắng mini-game
+    private GameObject player; // Tham chiếu đến người chơi
+    private FixGame miniGameScript; // Tham chiếu đến script FixGame
+
+    private void Start()
     {
-        // Ẩn prompt và mini game ban đầu
-        if (promptText != null) promptText.SetActive(false);
-        if (miniGameCanvas != null) miniGameCanvas.SetActive(false);
+        // Tìm người chơi bằng tag
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            Debug.LogError("Không tìm thấy GameObject với tag 'Player' trong cảnh!");
+            return;
+        }
+
+        // Tìm script FixGame trong miniGameContainer
+        if (miniGameContainer != null)
+        {
+            miniGameScript = miniGameContainer.GetComponent<FixGame>();
+            if (miniGameScript == null)
+            {
+                Debug.LogError("Không tìm thấy script FixGame trong miniGameContainer!");
+            }
+            else
+            {
+                // Đăng ký sự kiện khi mini-game kết thúc
+                miniGameScript.OnGameEnded += HandleGameEnded;
+            }
+        }
+        else
+        {
+            Debug.LogError("miniGameContainer chưa được gán trong Inspector!");
+        }
+
+        // Tắt mini-game lúc khởi động
+        if (miniGameContainer != null)
+        {
+            miniGameContainer.SetActive(false);
+        }
+
+        // Khởi tạo trạng thái
+        hasWon = false;
+        UpdateInteractionText("");
     }
 
-    void Update()
+    private void OnDestroy()
     {
-        // Kiểm tra nếu người chơi nhấn "E" khi gần hộp
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
+        // Hủy đăng ký sự kiện để tránh rò rỉ bộ nhớ
+        if (miniGameScript != null)
         {
-            if (promptText != null) promptText.SetActive(false);
-            if (miniGameCanvas != null) miniGameCanvas.SetActive(true);
+            miniGameScript.OnGameEnded -= HandleGameEnded;
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        // Phát hiện người chơi vào phạm vi
-        if (other.CompareTag("Player"))
+        if (player == null || miniGameContainer == null) return;
+
+        // Kiểm tra khoảng cách đến người chơi
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+        isPlayerInRange = distance <= interactionDistance;
+
+        // Hiển thị thông báo tương tác
+        if (isPlayerInRange)
         {
-            isPlayerNear = true;
-            if (promptText != null) promptText.SetActive(true);
+            if (!hasWon && !miniGameContainer.activeSelf)
+            {
+                UpdateInteractionText("Nhấn 'Q' để Sửa");
+            }
+            else if (hasWon)
+            {
+                UpdateInteractionText("Sửa đã xong!");
+            }
+            else
+            {
+                UpdateInteractionText("");
+            }
+        }
+        else
+        {
+            UpdateInteractionText(""); // Xóa thông báo khi người chơi rời vùng
+        }
+
+        // Kích hoạt mini-game khi nhấn Q, nếu chưa thắng
+        if (isPlayerInRange && !hasWon && Input.GetKeyDown(KeyCode.Q) && !miniGameContainer.activeSelf)
+        {
+            StartMiniGame();
         }
     }
 
-    void OnTriggerExit(Collider other)
+    /// <summary>
+    /// Kích hoạt mini-game
+    /// </summary>
+    private void StartMiniGame()
     {
-        // Người chơi rời khỏi phạm vi
-        if (other.CompareTag("Player"))
+        miniGameContainer.SetActive(true);
+        UpdateInteractionText("");
+        if (miniGameScript != null)
         {
-            isPlayerNear = false;
-            if (promptText != null) promptText.SetActive(false);
-            if (miniGameCanvas != null) miniGameCanvas.SetActive(false);
+            miniGameScript.ResetGame(); // Đặt lại mini-game
         }
+        Debug.Log("Mini-game được kích hoạt!");
+    }
+
+    /// <summary>
+    /// Xử lý khi mini-game kết thúc
+    /// </summary>
+    private void HandleGameEnded()
+    {
+        if (miniGameScript != null && miniGameScript.IsWon())
+        {
+            hasWon = true;
+        }
+        miniGameContainer.SetActive(false);
+    }
+
+    /// <summary>
+    /// Cập nhật văn bản tương tác trên UI
+    /// </summary>
+    private void UpdateInteractionText(string message)
+    {
+        if (interactionText != null)
+        {
+            interactionText.text = message;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Vẽ vùng tương tác trong Editor
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, interactionDistance);
     }
 }
