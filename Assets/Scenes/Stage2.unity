@@ -17734,6 +17734,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5472db1f78d2df045828a2da05162edb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 123758496}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5472db1f78d2df045828a2da05162edb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 123758497}
   m_SourcePrefab: {fileID: 100100000, guid: 5472db1f78d2df045828a2da05162edb, type: 3}
 --- !u!1 &123758494 stripped
 GameObject:
@@ -17761,6 +17764,27 @@ MonoBehaviour:
   ScrollPan: {fileID: 1557008452}
   inReach: 0
   timeline: {fileID: 0}
+--- !u!65 &123758497
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123758494}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &124072487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77792,15 +77816,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 577539343}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+        m_TargetAssemblyTypeName: Hint, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "\u0110\xE2y l\xE0 c\u1EE7a brian, th\u1EB1ng b\xE9 c\xF3
+            th\u1EC3 \u1EDF \u0111\xE2u "
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &577539343
@@ -77816,6 +77841,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 261428633}
+--- !u!65 &577539345
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577539341}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 4, z: 4}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &577955553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85377,6 +85423,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d24790eeaff4ced44a06e5eb494923df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 577539343}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d24790eeaff4ced44a06e5eb494923df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 577539345}
   m_SourcePrefab: {fileID: 100100000, guid: d24790eeaff4ced44a06e5eb494923df, type: 3}
 --- !u!1001 &630536302
 PrefabInstance:
