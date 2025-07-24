@@ -77841,6 +77841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 261428633}
+  Dialuoge: {fileID: 1623465554}
 --- !u!65 &577539345
 BoxCollider:
   m_ObjectHideFlags: 0
