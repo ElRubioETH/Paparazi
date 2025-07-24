@@ -17763,7 +17763,7 @@ MonoBehaviour:
   pickUpText: {fileID: 315160968}
   ScrollPan: {fileID: 1557008452}
   inReach: 0
-  timeline: {fileID: 0}
+  timeline: {fileID: 813529945}
 --- !u!65 &123758497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -109186,6 +109186,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 488602, guid: f39758d3d915d104080c0e3321b8c75b, type: 3}
   m_PrefabInstance: {fileID: 812699427}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &813529944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 813529946}
+  - component: {fileID: 813529945}
+  m_Layer: 0
+  m_Name: '@TimeLineFixCar (1)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!320 &813529945
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813529944}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 0}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
+--- !u!4 &813529946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813529944}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 456.95, y: 27.949993, z: -149.8769}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &814555840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297195,6 +297244,7 @@ SceneRoots:
   - {fileID: 1686894147}
   - {fileID: 943425312}
   - {fileID: 1429670342}
+  - {fileID: 813529946}
   - {fileID: 2111499526}
   - {fileID: 3412850178424902689}
   - {fileID: 5406637573609909804}
