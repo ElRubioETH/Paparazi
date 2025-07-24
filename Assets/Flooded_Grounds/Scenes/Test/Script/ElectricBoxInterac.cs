@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
+using Unity.Jobs;
+using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class ElectricBox : MonoBehaviour
 {
@@ -12,7 +15,8 @@ public class ElectricBox : MonoBehaviour
     private bool hasWon; // Trạng thái chiến thắng mini-game
     private GameObject player; // Tham chiếu đến người chơi
     private FixGame miniGameScript; // Tham chiếu đến script FixGame
-
+    public GameObject InteractText;
+    private bool inReach;
     private void Start()
     {
         // Tìm người chơi bằng tag
@@ -141,4 +145,25 @@ public class ElectricBox : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactionDistance);
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Reach")
+        {
+            inReach = true;
+            InteractText.SetActive(true);
+            UpdateInteractionText("");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Reach")
+        {
+            inReach = false;
+            InteractText.SetActive(false);
+        }
+    }
+
+
+
 }

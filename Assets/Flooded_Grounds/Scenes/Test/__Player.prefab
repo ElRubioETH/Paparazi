@@ -2365,7 +2365,6 @@ GameObject:
   - component: {fileID: 6779213694238019755}
   - component: {fileID: 8008263308386275576}
   - component: {fileID: 6814409611934610945}
-  - component: {fileID: 7350558861869026623}
   - component: {fileID: 6171077883674380456}
   - component: {fileID: 4912292618498843091}
   m_Layer: 6
@@ -2713,25 +2712,6 @@ MonoBehaviour:
   pickaxeOB: {fileID: 7627479945367602128}
   drink: {fileID: 4657489409033421857}
   drinkOB: {fileID: 2981994971220864611}
---- !u!114 &7350558861869026623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2313087228978262205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809a11f24cc17534784608d5b3342934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hud: {fileID: 6566705338266515314}
-  inv: {fileID: 397061724960328640}
-  deathScreen: {fileID: 0}
-  player: {fileID: 2313087228978262205}
-  health: 100
-  healthSlider: {fileID: 8832310871470854241}
-  maxHealth: 100
 --- !u!114 &6171077883674380456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6016,7 +5996,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HaveMedkit: {fileID: 4755166253422038883}
   use: {fileID: 4843160125272374857}
-  playerHealth: {fileID: 7350558861869026623}
+  playerHealth: {fileID: 0}
   medkit: {fileID: 4600416354909242152}
   healAmount: 40
 --- !u!65 &4080392454015480168
