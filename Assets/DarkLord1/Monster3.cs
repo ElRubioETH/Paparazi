@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class EnemyAI3 : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class EnemyAI3 : MonoBehaviour
     public float chaseSpeed = 5f;
     public float maxChaseDistance = 25f;
 
-    private enum State { Patrol, Chase, Attack }
+    private enum State { Patrol, Chase, Attack, Idle }
     private State currentState;
 
     public float attackCooldown = 2f;
@@ -31,23 +32,34 @@ public class EnemyAI3 : MonoBehaviour
     public AudioClip chaseSound;
     public AudioClip attackSound;
 
+    private bool isWaitingToPatrol = false;
+    private float idleTimer = 0f;
+    public float maxIdleTime = 3f;
+
+    private float lastDestinationUpdateTime;
+    private Vector3 lastPlayerPosition;
+    private float destinationUpdateInterval = 0.3f;
+    private float minDistanceToUpdateDestination = 1f;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        playerController = player.GetComponent<PlayerStateTracker>();
+        if (agent == null || !agent.isOnNavMesh || animator == null || audioSource == null || player == null || player.GetComponent<PlayerStateTracker>() == null || patrolPointA == null || patrolPointB == null)
+        {
+            enabled = false;
+            return;
+        }
 
+        playerController = player.GetComponent<PlayerStateTracker>();
         currentState = State.Patrol;
         currentPatrolTarget = patrolPointA;
         agent.speed = patrolSpeed;
+        audioSource.playOnAwake = false;
 
-        if (audioSource != null)
-        {
-            audioSource.playOnAwake = false;
-            audioSource.loop = false;
-        }
+        SwitchState(State.Patrol);
     }
 
     void Update()
@@ -55,155 +67,229 @@ public class EnemyAI3 : MonoBehaviour
         if (playerController == null || !agent.isOnNavMesh) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        bool inNearZone = distanceToPlayer <= nearRange;
-        bool inFarZone = distanceToPlayer > nearRange && distanceToPlayer <= farRange;
+        DetermineNextState(distanceToPlayer);
+        ManageAudio(distanceToPlayer);
 
-        bool isMoving = playerController.isMoving;
-        bool isCrouching = playerController.isCrouching;
-
-        currentState = State.Patrol;
-
-        if (inFarZone)
+        if (currentState == State.Chase && player != null)
         {
-            if (isMoving && !isCrouching)
+            if (Time.time - lastDestinationUpdateTime >= destinationUpdateInterval || Vector3.Distance(player.position, lastPlayerPosition) > minDistanceToUpdateDestination)
             {
-                currentState = State.Chase;
+                agent.SetDestination(player.position);
+                lastDestinationUpdateTime = Time.time;
+                lastPlayerPosition = player.position;
             }
+
+            Vector3 direction = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
         }
-        else if (inNearZone)
+
+        if (currentState == State.Patrol && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
         {
-            if (isMoving)
+            currentPatrolTarget = (currentPatrolTarget == patrolPointA) ? patrolPointB : patrolPointA;
+            agent.SetDestination(currentPatrolTarget.position);
+        }
+
+        if (currentState == State.Idle)
+        {
+            idleTimer += Time.deltaTime;
+            if (idleTimer >= maxIdleTime)
             {
-                if (distanceToPlayer <= attackRange)
+                isWaitingToPatrol = false;
+                if (distanceToPlayer > nearRange || !playerController.isMoving)
                 {
-                    currentState = State.Attack;
+                    SwitchState(State.Patrol);
                 }
                 else
                 {
-                    currentState = State.Chase;
+                    SwitchState(State.Chase);
                 }
+                idleTimer = 0f;
+            }
+        }
+        else
+        {
+            idleTimer = 0f;
+            isWaitingToPatrol = false;
+        }
+    }
+
+    void DetermineNextState(float distanceToPlayer)
+    {
+        bool isCrouching = playerController.isCrouching;
+        bool isMoving = playerController.isMoving;
+        State nextState = currentState;
+
+        if (distanceToPlayer <= attackRange && isMoving && Time.time - lastAttackTime >= attackCooldown)
+        {
+            nextState = State.Attack;
+        }
+        else if (distanceToPlayer <= nearRange)
+        {
+            if (isMoving)
+            {
+                nextState = State.Chase;
+            }
+            else if (currentState == State.Chase || currentState == State.Attack)
+            {
+                nextState = State.Idle;
+                isWaitingToPatrol = true;
+            }
+            else if (currentState != State.Idle)
+            {
+                nextState = State.Patrol;
+            }
+        }
+        else if (distanceToPlayer <= farRange && distanceToPlayer <= maxChaseDistance)
+        {
+            if (isMoving && !isCrouching)
+            {
+                nextState = State.Chase;
+            }
+            else if (currentState == State.Chase || currentState == State.Attack)
+            {
+                nextState = State.Idle;
+                isWaitingToPatrol = true;
             }
             else
             {
-                currentState = State.Patrol;
+                nextState = State.Patrol;
             }
         }
-
-        if (distanceToPlayer > maxChaseDistance && currentState == State.Chase)
+        else if (currentState == State.Chase || currentState == State.Attack)
         {
-            currentState = State.Patrol;
+            nextState = State.Idle;
+            isWaitingToPatrol = true;
+        }
+        else
+        {
+            nextState = State.Patrol;
         }
 
-        ManageAudio(distanceToPlayer);
+        if (nextState != currentState)
+        {
+            SwitchState(nextState);
+        }
+    }
+
+    void SwitchState(State newState)
+    {
+        currentState = newState;
+
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isIdle", false);
+
+        agent.isStopped = (newState == State.Idle || newState == State.Attack);
 
         switch (currentState)
         {
             case State.Patrol:
-                Patrol();
+                agent.speed = patrolSpeed;
+                animator.SetBool("isWalking", true);
+                agent.SetDestination(currentPatrolTarget.position);
                 break;
             case State.Chase:
-                Chase();
+                agent.speed = chaseSpeed;
+                animator.SetBool("isRunning", true);
+                if (player != null)
+                {
+                    agent.SetDestination(player.position);
+                    lastPlayerPosition = player.position;
+                    lastDestinationUpdateTime = Time.time;
+                }
                 break;
             case State.Attack:
                 Attack();
                 break;
+            case State.Idle:
+                animator.SetBool("isIdle", true);
+                if (player != null)
+                {
+                    Vector3 direction = (player.position - transform.position).normalized;
+                    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                }
+                break;
         }
-    }
-
-    void Patrol()
-    {
-        if (!agent.isOnNavMesh) return;
-
-        agent.isStopped = false;
-        agent.speed = patrolSpeed;
-        animator.SetBool("isWalking", true);
-        animator.SetBool("isRunning", false);
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
-        {
-            currentPatrolTarget = currentPatrolTarget == patrolPointA ? patrolPointB : patrolPointA;
-            agent.SetDestination(currentPatrolTarget.position);
-        }
-        else if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-        {
-            agent.SetDestination(currentPatrolTarget.position);
-        }
-    }
-
-    void Chase()
-    {
-        if (!agent.isOnNavMesh) return;
-
-        agent.isStopped = false;
-        agent.speed = chaseSpeed;
-        animator.SetBool("isWalking", false);
-        animator.SetBool("isRunning", true);
-
-        agent.SetDestination(player.position);
     }
 
     void Attack()
     {
-        if (!agent.isOnNavMesh) return;
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer > attackRange)
+        agent.isStopped = true;
+        if (player != null)
         {
-            agent.isStopped = false;
-            agent.SetDestination(player.position);
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", true);
-            return;
+            transform.LookAt(player);
         }
 
-        agent.isStopped = true;
         animator.SetBool("isWalking", false);
         animator.SetBool("isRunning", false);
+        animator.SetBool("isIdle", true);
 
         if (Time.time - lastAttackTime >= attackCooldown)
         {
             animator.SetTrigger("attack");
             lastAttackTime = Time.time;
-            
+        }
+    }
+
+    private IEnumerator WaitAndSwitchToPatrol()
+    {
+        isWaitingToPatrol = true;
+        SwitchState(State.Idle);
+        yield return new WaitForSeconds(maxIdleTime);
+        if (currentState == State.Idle)
+        {
+            isWaitingToPatrol = false;
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > nearRange || !playerController.isMoving)
+            {
+                SwitchState(State.Patrol);
+            }
+            else
+            {
+                SwitchState(State.Chase);
+            }
         }
     }
 
     void ManageAudio(float distanceToPlayer)
     {
-        if (patrolSound != null && currentState == State.Patrol && distanceToPlayer <= 20f && !audioSource.isPlaying)
+        AudioClip targetClip = null;
+        bool loop = false;
+
+        switch (currentState)
         {
-            audioSource.clip = patrolSound;
-            audioSource.loop = true;
-            audioSource.Play();
-        }
-        else if (distanceToPlayer > 20f && audioSource.isPlaying && audioSource.clip == patrolSound)
-        {
-            audioSource.Stop();
+            case State.Patrol:
+                if (distanceToPlayer <= 20f)
+                {
+                    targetClip = patrolSound;
+                    loop = true;
+                }
+                break;
+            case State.Chase:
+                targetClip = chaseSound;
+                loop = true;
+                break;
         }
 
-        if (chaseSound != null && currentState == State.Chase && distanceToPlayer <= farRange && audioSource.clip != chaseSound)
+        if (audioSource.clip != targetClip)
         {
             audioSource.Stop();
-            audioSource.clip = chaseSound;
-            audioSource.loop = true;
-            audioSource.Play();
+            audioSource.clip = targetClip;
+            audioSource.loop = loop;
+            if (targetClip != null)
+            {
+                audioSource.Play();
+            }
         }
-        else if ((distanceToPlayer > farRange || currentState != State.Chase) && audioSource.isPlaying && audioSource.clip == chaseSound)
-        {
-            audioSource.Stop();
-        }
+    }
 
-        if (attackSound != null && currentState == State.Attack && distanceToPlayer <= attackRange && !audioSource.isPlaying)
+    public void PlayAttackSound()
+    {
+        if (attackSound != null)
         {
-            audioSource.Stop();
-            audioSource.clip = attackSound;
-            audioSource.loop = false;
-            audioSource.Play();
-        }
-        else if (distanceToPlayer > attackRange && audioSource.isPlaying && audioSource.clip == attackSound)
-        {
-            audioSource.Stop();
+            audioSource.PlayOneShot(attackSound);
         }
     }
 
@@ -215,14 +301,11 @@ public class EnemyAI3 : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, nearRange);
 
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
         Gizmos.color = Color.blue;
         if (patrolPointA != null) Gizmos.DrawWireCube(patrolPointA.position, Vector3.one);
         if (patrolPointB != null) Gizmos.DrawWireCube(patrolPointB.position, Vector3.one);
-
-        Gizmos.color = new Color(0f, 1f, 1f, 0.3f);
-        Gizmos.DrawWireSphere(transform.position, 20f);
-
-        Gizmos.color = new Color(0.5f, 0f, 0.5f, 0.3f);
-        Gizmos.DrawWireSphere(transform.position, maxChaseDistance);
     }
 }

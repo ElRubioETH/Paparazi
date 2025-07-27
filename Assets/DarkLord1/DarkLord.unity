@@ -559,12 +559,13 @@ MonoBehaviour:
   nearRange: 5
   farRange: 15
   attackRange: 2
-  chaseSpeed: 5
+  chaseSpeed: 2
   maxChaseDistance: 25
   attackCooldown: 2
   patrolSound: {fileID: 8300000, guid: 12e2350c7aa3c324c943734486502270, type: 3}
   chaseSound: {fileID: 8300000, guid: 1188442ddf33dce4698662b85f4593e8, type: 3}
   attackSound: {fileID: 8300000, guid: 532b9c661ec35624c92bfad346b59169, type: 3}
+  maxIdleTime: 3
 --- !u!195 &1184708537
 NavMeshAgent:
   m_ObjectHideFlags: 0
