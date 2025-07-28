@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 80ca2a8a3860be84fbc6c0fee865e5e2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133030
+  packageName: HQ Modular Interior Mansion
+  packageVersion: 1.0
+  assetPath: Assets/HQ Modular Interior Mansion/3D_Models/bed_a/Materials/fabric_mat.mat
+  uploadId: 278595

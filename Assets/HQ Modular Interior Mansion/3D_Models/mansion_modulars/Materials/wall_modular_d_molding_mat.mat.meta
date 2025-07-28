@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 23d0524c63aceb84d9f05bf200076194
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133030
+  packageName: HQ Modular Interior Mansion
+  packageVersion: 1.0
+  assetPath: Assets/HQ Modular Interior Mansion/3D_Models/mansion_modulars/Materials/wall_modular_d_molding_mat.mat
+  uploadId: 278595

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b1bd91fbe1947b64eac4440cb460a1c7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133030
+  packageName: HQ Modular Interior Mansion
+  packageVersion: 1.0
+  assetPath: Assets/HQ Modular Interior Mansion/3D_Models/dining_table/Materials/dining_table_mat.mat
+  uploadId: 278595
