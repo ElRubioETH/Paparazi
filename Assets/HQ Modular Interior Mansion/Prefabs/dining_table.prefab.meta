@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5a114aa5f127003488b9fe9eb1750019
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133030
+  packageName: HQ Modular Interior Mansion
+  packageVersion: 1.0
+  assetPath: Assets/HQ Modular Interior Mansion/Prefabs/dining_table.prefab
+  uploadId: 278595

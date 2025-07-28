@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d1b053296300721408d9c7f6647d12e6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133030
+  packageName: HQ Modular Interior Mansion
+  packageVersion: 1.0
+  assetPath: Assets/HQ Modular Interior Mansion/Prefabs/curtain_bath.prefab
+  uploadId: 278595
