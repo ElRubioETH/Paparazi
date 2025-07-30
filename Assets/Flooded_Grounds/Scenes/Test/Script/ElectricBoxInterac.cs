@@ -14,6 +14,9 @@ public class ElectricBox : MonoBehaviour
     private GameObject player; // Tham chiếu đến người chơi
     private FixGame miniGameScript; // Tham chiếu đến script FixGame
     private NewDoors door; // Tham chiếu đến cửa
+    [SerializeField] private MeshRenderer signalLight;
+    [SerializeField] private Material onMaterial;
+    [SerializeField] private DoorController doorController;
 
     private void Awake()
     {
@@ -141,14 +144,17 @@ public class ElectricBox : MonoBehaviour
         {
             hasWon = true;
             isMiniGameActive = false;
-            if (door != null)
+            // 🔴 Đổi màu đèn signal
+            if (signalLight != null && onMaterial != null)
             {
-                door.OnBoxFixed(this);
-                Debug.Log($"ElectricBox {gameObject.name} (InstanceID: {GetInstanceID()}) đã sửa, thông báo cho NewDoors!");
+                signalLight.material = onMaterial;
+                Debug.Log($"Đã đổi signal light thành ON cho {gameObject.name}");
             }
-            else
+
+            // 🟢 Thông báo cho hệ thống cửa
+            if (doorController != null)
             {
-                Debug.LogWarning($"NewDoors chưa được đăng ký cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
+                doorController.ReportBoxFixed();
             }
         }
 
