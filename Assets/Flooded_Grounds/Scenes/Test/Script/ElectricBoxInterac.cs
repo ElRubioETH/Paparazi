@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using Unity.Jobs;
-using Unity.VisualScripting;
-using UnityEngine.InputSystem;
 
 public class ElectricBox : MonoBehaviour
 {
@@ -13,48 +10,58 @@ public class ElectricBox : MonoBehaviour
 
     private bool isPlayerInRange; // Kiểm tra người chơi có trong phạm vi không
     private bool hasWon; // Trạng thái chiến thắng mini-game
+    private bool isMiniGameActive; // Kiểm tra mini-game đang active
     private GameObject player; // Tham chiếu đến người chơi
     private FixGame miniGameScript; // Tham chiếu đến script FixGame
-    public GameObject InteractText;
-    private bool inReach;
+    private NewDoors door; // Tham chiếu đến cửa
+
+    private void Awake()
+    {
+        hasWon = false;
+        isPlayerInRange = false;
+        isMiniGameActive = false;
+        Debug.Log($"Awake ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})");
+    }
+
     private void Start()
     {
         // Tìm người chơi bằng tag
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
-            Debug.LogError("Không tìm thấy GameObject với tag 'Player' trong cảnh!");
+            Debug.LogError($"Không tìm thấy GameObject với tag 'Player' trong cảnh cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
             return;
         }
 
-        // Tìm script FixGame trong miniGameContainer
-        if (miniGameContainer != null)
+        // Kiểm tra và khởi tạo miniGameContainer
+        if (miniGameContainer == null)
         {
-            miniGameScript = miniGameContainer.GetComponent<FixGame>();
-            if (miniGameScript == null)
-            {
-                Debug.LogError("Không tìm thấy script FixGame trong miniGameContainer!");
-            }
-            else
-            {
-                // Đăng ký sự kiện khi mini-game kết thúc
-                miniGameScript.OnGameEnded += HandleGameEnded;
-            }
+            Debug.LogError($"miniGameContainer chưa được gán trong Inspector cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
+            return;
+        }
+
+        miniGameScript = miniGameContainer.GetComponent<FixGame>();
+        if (miniGameScript == null)
+        {
+            Debug.LogError($"Không tìm thấy script FixGame trong miniGameContainer cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
         }
         else
         {
-            Debug.LogError("miniGameContainer chưa được gán trong Inspector!");
+            // Đăng ký sự kiện khi mini-game kết thúc
+            miniGameScript.OnGameEnded += HandleGameEnded;
+            Debug.Log($"Đã đăng ký sự kiện OnGameEnded cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()}), FixGame InstanceID: {miniGameScript.GetInstanceID()}");
         }
+        miniGameContainer.SetActive(false); // Tắt mini-game lúc khởi động
 
-        // Tắt mini-game lúc khởi động
-        if (miniGameContainer != null)
+        // Kiểm tra interactionText
+        if (interactionText == null)
         {
-            miniGameContainer.SetActive(false);
+            Debug.LogError($"interactionText chưa được gán trong Inspector cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
         }
-
-        // Khởi tạo trạng thái
-        hasWon = false;
-        UpdateInteractionText("");
+        else
+        {
+            UpdateInteractionText("");
+        }
     }
 
     private void OnDestroy()
@@ -63,12 +70,13 @@ public class ElectricBox : MonoBehaviour
         if (miniGameScript != null)
         {
             miniGameScript.OnGameEnded -= HandleGameEnded;
+            Debug.Log($"Hủy đăng ký sự kiện OnGameEnded cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})");
         }
     }
 
     private void Update()
     {
-        if (player == null || miniGameContainer == null) return;
+        if (player == null || miniGameContainer == null || miniGameScript == null) return;
 
         // Kiểm tra khoảng cách đến người chơi
         float distance = Vector3.Distance(transform.position, player.transform.position);
@@ -77,13 +85,14 @@ public class ElectricBox : MonoBehaviour
         // Hiển thị thông báo tương tác
         if (isPlayerInRange)
         {
-            if (!hasWon && !miniGameContainer.activeSelf)
+            if (!hasWon && !isMiniGameActive)
             {
-                UpdateInteractionText("Nhấn 'Q' để Sửa");
+                UpdateInteractionText("Nhấn 'Q' để sửa");
+                Debug.Log($"Hiển thị thông báo 'Nhấn Q để sửa' cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()}), distance: {distance}");
             }
             else if (hasWon)
             {
-                UpdateInteractionText("Sửa đã xong!");
+                UpdateInteractionText("Hộp điện đã sửa!");
             }
             else
             {
@@ -92,11 +101,11 @@ public class ElectricBox : MonoBehaviour
         }
         else
         {
-            UpdateInteractionText(""); // Xóa thông báo khi người chơi rời vùng
+            UpdateInteractionText("");
         }
 
         // Kích hoạt mini-game khi nhấn Q, nếu chưa thắng
-        if (isPlayerInRange && !hasWon && Input.GetKeyDown(KeyCode.Q) && !miniGameContainer.activeSelf)
+        if (isPlayerInRange && !hasWon && Input.GetKeyDown(KeyCode.Q) && !isMiniGameActive)
         {
             StartMiniGame();
         }
@@ -107,13 +116,14 @@ public class ElectricBox : MonoBehaviour
     /// </summary>
     private void StartMiniGame()
     {
-        miniGameContainer.SetActive(true);
-        UpdateInteractionText("");
-        if (miniGameScript != null)
+        if (miniGameContainer != null && miniGameScript != null)
         {
-            miniGameScript.ResetGame(); // Đặt lại mini-game
+            isMiniGameActive = true;
+            miniGameContainer.SetActive(true);
+            UpdateInteractionText("");
+            miniGameScript.ResetGame();
+            Debug.Log($"Mini-game được kích hoạt cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()}), FixGame InstanceID: {miniGameScript.GetInstanceID()}");
         }
-        Debug.Log("Mini-game được kích hoạt!");
     }
 
     /// <summary>
@@ -121,11 +131,42 @@ public class ElectricBox : MonoBehaviour
     /// </summary>
     private void HandleGameEnded()
     {
-        if (miniGameScript != null && miniGameScript.IsWon())
+        if (!isMiniGameActive)
+        {
+            Debug.Log($"HandleGameEnded bị gọi nhưng mini-game không active cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
+            return;
+        }
+
+        if (miniGameScript != null && miniGameScript.IsWon() && !hasWon)
         {
             hasWon = true;
+            isMiniGameActive = false;
+            if (door != null)
+            {
+                door.OnBoxFixed(this);
+                Debug.Log($"ElectricBox {gameObject.name} (InstanceID: {GetInstanceID()}) đã sửa, thông báo cho NewDoors!");
+            }
+            else
+            {
+                Debug.LogWarning($"NewDoors chưa được đăng ký cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})!");
+            }
         }
-        miniGameContainer.SetActive(false);
+
+        if (miniGameContainer != null)
+        {
+            miniGameContainer.SetActive(false);
+            isMiniGameActive = false;
+        }
+        Debug.Log($"HandleGameEnded called for ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()}), hasWon: {hasWon}, isMiniGameActive: {isMiniGameActive}");
+    }
+
+    /// <summary>
+    /// Đăng ký cửa để nhận thông báo khi hộp được sửa
+    /// </summary>
+    public void RegisterDoor(NewDoors door)
+    {
+        this.door = door;
+        Debug.Log($"NewDoors đã được đăng ký cho ElectricBox: {gameObject.name} (InstanceID: {GetInstanceID()})");
     }
 
     /// <summary>
@@ -136,34 +177,13 @@ public class ElectricBox : MonoBehaviour
         if (interactionText != null)
         {
             interactionText.text = message;
+            Debug.Log($"Cập nhật UI cho ElectricBox {gameObject.name} (InstanceID: {GetInstanceID()}): {message}, isActive: {interactionText.gameObject.activeSelf}");
         }
     }
 
     private void OnDrawGizmos()
     {
-        // Vẽ vùng tương tác trong Editor
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactionDistance);
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
-            inReach = true;
-            InteractText.SetActive(true);
-            UpdateInteractionText("");
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
-            inReach = false;
-            InteractText.SetActive(false);
-        }
-    }
-
-
-
 }

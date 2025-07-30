@@ -10,20 +10,20 @@ public class FixGame : MonoBehaviour
 
     [Header("Lightning")]
     [SerializeField, Tooltip("GameObject của lightning")] private Transform lightning;
-    private float lightningPosition; // Vị trí hiện tại của lightning (0 đến 1)
-    private float lightningTimer; // Bộ đếm thời gian để thay đổi vận tốc
+    private float lightningPosition;
+    private float lightningTimer;
     [SerializeField, Tooltip("Thời gian tối đa giữa các lần thay đổi vận tốc lightning")] private float timerMultiplicator = 1f;
-    private float lightningSpeed; // Vận tốc hiện tại của lightning
+    private float lightningSpeed;
     [SerializeField, Tooltip("Giới hạn vận tốc tối đa của lightning")] private float smoothMotion = 0.2f;
-    private float noiseOffset; // Offset cho Perlin noise
+    private float noiseOffset;
 
     [Header("Hook")]
     [SerializeField, Tooltip("GameObject của hook")] private Transform hook;
-    private float hookPosition; // Vị trí hiện tại của hook (0 đến 1)
+    private float hookPosition;
     [SerializeField, Tooltip("Kích thước vùng hoạt động của hook")] private float hookSize = 0.15f;
     [SerializeField, Tooltip("Tốc độ tăng tiến độ khi lightning trong vùng hook")] private float hookProgressIncreasePower = 0.4f;
-    private float hookProgress; // Tiến độ trò chơi (0 đến 1)
-    private float hookPullVelocity; // Vận tốc kéo hook
+    private float hookProgress;
+    private float hookPullVelocity;
     [SerializeField, Tooltip("Lực kéo hook khi nhấn chuột")] private float hookPullPower = 0.02f;
     [SerializeField, Tooltip("Lực trọng lực kéo hook xuống")] private float hookGravityPower = 0.01f;
     [SerializeField, Tooltip("Tốc độ giảm tiến độ khi lightning ngoài vùng hook")] private float hookProgressDegradationPower = 0.05f;
@@ -32,53 +32,55 @@ public class FixGame : MonoBehaviour
 
     [Header("Game Settings")]
     [SerializeField, Tooltip("Thời gian tối đa trước khi thua")] private float failTimer = 15f;
-    private float currentFailTimer; // Bộ đếm thời gian hiện tại
-    private bool isPaused; // Trạng thái tạm dừng trò chơi
-    private bool hasWon; // Trạng thái chiến thắng
+    private float currentFailTimer;
+    private bool isPaused;
+    private bool hasWon;
 
     [Header("UI")]
     [SerializeField, Tooltip("TextMeshPro để hiển thị trạng thái trò chơi")] private TextMeshProUGUI statusText;
     [SerializeField, Tooltip("TextMeshPro để hiển thị thời gian còn lại")] private TextMeshProUGUI timerText;
 
-    private Vector3 topPivotPosition; // Lưu vị trí pivot để tối ưu
+    private Vector3 topPivotPosition;
     private Vector3 bottomPivotPosition;
 
-    public event Action OnGameEnded; // Sự kiện khi mini-game kết thúc
+    public event Action OnGameEnded;
+
+    private void Awake()
+    {
+        hasWon = false;
+        isPaused = false;
+        Debug.Log($"Awake FixGame trên {gameObject.name} (InstanceID: {GetInstanceID()})");
+    }
 
     private void Start()
     {
         if (!ValidateReferences()) return;
         InitializeGame();
+        Debug.Log($"Khởi tạo FixGame trên {gameObject.name} (InstanceID: {GetInstanceID()})");
     }
 
-    /// <summary>
-    /// Kiểm tra các tham chiếu cần thiết
-    /// </summary>
     private bool ValidateReferences()
     {
         if (topPivot == null || bottomPivot == null || lightning == null ||
             hook == null || hookSpriteRenderer == null || progressBarContainer == null ||
             statusText == null || timerText == null)
         {
-            Debug.LogError("Thiếu một hoặc nhiều tham chiếu trong Inspector! Vui lòng kiểm tra: topPivot, bottomPivot, lightning, hook, hookSpriteRenderer, progressBarContainer, statusText, timerText.");
+            Debug.LogError($"Thiếu một hoặc nhiều tham chiếu trong Inspector cho FixGame trên {gameObject.name} (InstanceID: {GetInstanceID()})! Vui lòng kiểm tra: topPivot, bottomPivot, lightning, hook, hookSpriteRenderer, progressBarContainer, statusText, timerText.");
             isPaused = true;
             return false;
         }
         return true;
     }
 
-    /// <summary>
-    /// Khởi tạo trạng thái ban đầu của trò chơi
-    /// </summary>
     private void InitializeGame()
     {
         Resize();
         topPivotPosition = topPivot.position;
         bottomPivotPosition = bottomPivot.position;
-        hookPosition = 0.5f; // Bắt đầu hook ở giữa
-        lightningPosition = 0.5f; // Bắt đầu lightning ở giữa
-        lightningSpeed = 0f; // Vận tốc ban đầu
-        noiseOffset = UnityEngine.Random.value * 100f; // Offset ngẫu nhiên cho Perlin noise
+        hookPosition = 0.5f;
+        lightningPosition = 0.5f;
+        lightningSpeed = 0f;
+        noiseOffset = UnityEngine.Random.value * 100f;
         hookProgress = 0f;
         currentFailTimer = failTimer;
         isPaused = false;
@@ -87,9 +89,6 @@ public class FixGame : MonoBehaviour
         UpdateTimerText();
     }
 
-    /// <summary>
-    /// Điều chỉnh kích thước hook dựa trên khoảng cách giữa hai pivot
-    /// </summary>
     private void Resize()
     {
         Bounds bounds = hookSpriteRenderer.bounds;
@@ -118,9 +117,6 @@ public class FixGame : MonoBehaviour
         UpdateTimerText();
     }
 
-    /// <summary>
-    /// Cập nhật chuyển động ngẫu nhiên của lightning sử dụng Perlin noise và vận tốc
-    /// </summary>
     private void UpdateLightning(float deltaTime)
     {
         lightningTimer -= deltaTime;
@@ -130,32 +126,29 @@ public class FixGame : MonoBehaviour
             lightningSpeed = UnityEngine.Random.Range(-smoothMotion, smoothMotion);
         }
 
-        float noise = Mathf.PerlinNoise(Time.time * 0.5f + noiseOffset, 0f) * 2f - 1f; // Giá trị từ -1 đến 1
-        lightningSpeed += noise * smoothMotion * 0.5f * deltaTime; // Điều chỉnh vận tốc bằng noise
-        lightningSpeed = Mathf.Clamp(lightningSpeed, -smoothMotion, smoothMotion); // Giới hạn vận tốc
+        float noise = Mathf.PerlinNoise(Time.time * 0.5f + noiseOffset, 0f) * 2f - 1f;
+        lightningSpeed += noise * smoothMotion * 0.5f * deltaTime;
+        lightningSpeed = Mathf.Clamp(lightningSpeed, -smoothMotion, smoothMotion);
 
         lightningPosition += lightningSpeed * deltaTime;
 
         if (lightningPosition < 0f)
         {
             lightningPosition = 0f;
-            lightningSpeed = Mathf.Abs(lightningSpeed); // Đảo hướng khi chạm đáy
+            lightningSpeed = Mathf.Abs(lightningSpeed);
         }
         else if (lightningPosition > 1f)
         {
             lightningPosition = 1f;
-            lightningSpeed = -Mathf.Abs(lightningSpeed); // Đảo hướng khi chạm đỉnh
+            lightningSpeed = -Mathf.Abs(lightningSpeed);
         }
 
         lightning.position = Vector3.Lerp(bottomPivotPosition, topPivotPosition, lightningPosition);
     }
 
-    /// <summary>
-    /// Cập nhật chuyển động và vận tốc của hook
-    /// </summary>
     private void UpdateHook(float deltaTime)
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             hookPullVelocity += hookPullPower * deltaTime;
         }
@@ -176,9 +169,6 @@ public class FixGame : MonoBehaviour
         hook.position = Vector3.Lerp(bottomPivotPosition, topPivotPosition, hookPosition);
     }
 
-    /// <summary>
-    /// Cập nhật tiến độ và kiểm tra điều kiện thắng/thua
-    /// </summary>
     private void UpdateProgress(float deltaTime)
     {
         Vector3 localScale = progressBarContainer.localScale;
@@ -209,66 +199,56 @@ public class FixGame : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Xử lý khi người chơi thua
-    /// </summary>
     private void Lose()
     {
         isPaused = true;
         UpdateStatusText("Bạn đã thua! Nhấn 'E' để thoát.");
+        Debug.Log($"Mini-game trên {gameObject.name} (InstanceID: {GetInstanceID()}) thua, kích hoạt OnGameEnded");
         OnGameEnded?.Invoke();
     }
 
-    /// <summary>
-    /// Xử lý khi người chơi thắng
-    /// </summary>
     private void Win()
     {
+        if (hasWon) return; // Ngăn gọi nhiều lần
         isPaused = true;
         hasWon = true;
         UpdateStatusText("Bạn đã thắng! Nhấn 'E' để thoát.");
+        Debug.Log($"Mini-game trên {gameObject.name} (InstanceID: {GetInstanceID()}) thắng, kích hoạt OnGameEnded");
         OnGameEnded?.Invoke();
     }
 
-    /// <summary>
-    /// Thoát mini-game và tắt container
-    /// </summary>
     private void QuitMiniGame()
     {
-        Debug.Log("Thoát mini-game!");
+        Debug.Log($"Thoát mini-game trên {gameObject.name} (InstanceID: {GetInstanceID()})!");
+        isPaused = true;
         OnGameEnded?.Invoke();
-        gameObject.SetActive(false); // Tắt miniGameContainer
+        gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// Đặt lại trạng thái mini-game
-    /// </summary>
     public void ResetGame()
     {
         InitializeGame();
+        Debug.Log($"Đặt lại mini-game trên {gameObject.name} (InstanceID: {GetInstanceID()})");
     }
 
-    /// <summary>
-    /// Kiểm tra trạng thái chiến thắng
-    /// </summary>
     public bool IsWon()
     {
         return hasWon;
     }
 
-    /// <summary>
-    /// Cập nhật văn bản trạng thái trên UI
-    /// </summary>
     private void UpdateStatusText(string message)
     {
-        statusText.text = message;
+        if (statusText != null)
+        {
+            statusText.text = message;
+        }
     }
 
-    /// <summary>
-    /// Cập nhật văn bản thời gian trên UI
-    /// </summary>
     private void UpdateTimerText()
     {
-        timerText.text = $"Thời gian: {Mathf.CeilToInt(currentFailTimer)}s";
+        if (timerText != null)
+        {
+            timerText.text = $"Thời gian: {Mathf.CeilToInt(currentFailTimer)}s";
+        }
     }
 }
