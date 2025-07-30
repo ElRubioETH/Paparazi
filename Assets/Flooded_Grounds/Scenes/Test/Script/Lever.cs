@@ -5,20 +5,43 @@ public class GateLeverInteraction : MonoBehaviour
     public DoorController doorController;
     private bool canPull = true;
 
-    private void OnTriggerEnter(Collider other)
+    public GameObject InteractText;
+    public bool inReach;
+    public Animator LeverAnimation;
+
+    void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Reach") && canPull)
+        if (other.CompareTag("Reach"))
         {
-            Debug.Log("Nhấn E để gạt cần");
+            inReach = true;
+            InteractText.SetActive(true);
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Reach") && canPull && Input.GetKeyDown(KeyCode.E))
+        if (other.CompareTag("Reach"))
         {
-            doorController.PullLever();
-            canPull = false; // chỉ cho gạt 1 lần
+            inReach = false;
+            InteractText.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        if (inReach && Input.GetButtonDown("Interact") && canPull)
+        {
+            if (doorController != null && doorController.IsUnlocked()) // ✅ Kiểm tra đủ box chưa
+            {
+                doorController.PullLever();
+                LeverAnimation.SetTrigger("Pull");
+                canPull = false;
+                InteractText.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("Chưa đủ số hộp sửa, không thể gạt cần.");
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ public class DoorController : MonoBehaviour
     public int requiredBoxes = 5;
     public Animator doorAnimator;
     public GameObject lever; // để bật tương tác sau khi đủ
-
+    public AudioSource DoorOpen;
     private int fixedCount = 0;
     private bool isUnlocked = false;
 
@@ -28,6 +28,10 @@ public class DoorController : MonoBehaviour
             Debug.Log("Tất cả hộp đã sửa. Cần gạt đã bật.");
         }
     }
+    public bool IsUnlocked()
+    {
+        return fixedCount >= requiredBoxes;
+    }
 
     public void PullLever()
     {
@@ -35,6 +39,7 @@ public class DoorController : MonoBehaviour
         {
             doorAnimator.SetTrigger("Open");
             Debug.Log("Đã mở cửa!");
+            DoorOpen.Play();
         }
     }
 }

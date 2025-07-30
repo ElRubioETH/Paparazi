@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
 using TMPro;
+using UnityEngine;
 
 public class ElectricBox : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class ElectricBox : MonoBehaviour
     [SerializeField, Tooltip("Khoảng cách tối đa để tương tác với hộp điện")] private float interactionDistance = 2f;
 
     private bool isPlayerInRange; // Kiểm tra người chơi có trong phạm vi không
-    private bool hasWon; // Trạng thái chiến thắng mini-game
+    public bool hasWon; // Trạng thái chiến thắng mini-game
     private bool isMiniGameActive; // Kiểm tra mini-game đang active
     private GameObject player; // Tham chiếu đến người chơi
     private FixGame miniGameScript; // Tham chiếu đến script FixGame
@@ -132,6 +133,9 @@ public class ElectricBox : MonoBehaviour
     /// <summary>
     /// Xử lý khi mini-game kết thúc
     /// </summary>
+    /// 
+
+  
     private void HandleGameEnded()
     {
         if (!isMiniGameActive)
