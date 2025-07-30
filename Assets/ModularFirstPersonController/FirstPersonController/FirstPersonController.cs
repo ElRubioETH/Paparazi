@@ -581,9 +581,12 @@ public class FirstPersonController : MonoBehaviour
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
+            
+
             // Nếu đứng trên Terrain
             if (hit.collider.TryGetComponent<Terrain>(out Terrain terrain))
             {
+
                 int textureIndex = GetMainTextureIndex(transform.position);
 
                 switch (textureIndex)
@@ -592,11 +595,15 @@ public class FirstPersonController : MonoBehaviour
                         selectedClip = walkDirt;
                         break;
                     case 1:
-                        selectedClip = walkWood;
+                        selectedClip = walkDirt;
                         break;
                     case 2:
                         selectedClip = walkConcrete;
                         break;
+                    case 3:
+                        selectedClip = walkClip;
+                        break;
+                    
                 }
             }
             // Nếu đứng trên object có SurfaceType
@@ -614,7 +621,9 @@ public class FirstPersonController : MonoBehaviour
                         selectedClip = walkConcrete;
                         break;
                 }
+
             }
+
         }
 
         if (selectedClip != null)
