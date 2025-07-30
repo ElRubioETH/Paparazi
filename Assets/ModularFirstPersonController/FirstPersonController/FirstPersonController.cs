@@ -539,32 +539,91 @@ public class FirstPersonController : MonoBehaviour
             joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
     }
-    private void PlayFootstepSound()
+    public int GetMainTextureIndex(Vector3 position)
+    {
+        Terrain terrain = Terrain.activeTerrain;
+        if (terrain == null) return -1;
+
+        Vector3 terrainPos = position - terrain.transform.position;
+        TerrainData terrainData = terrain.terrainData;
+
+        int mapX = Mathf.FloorToInt((terrainPos.x / terrainData.size.x) * terrainData.alphamapWidth);
+        int mapZ = Mathf.FloorToInt((terrainPos.z / terrainData.size.z) * terrainData.alphamapHeight);
+
+        float[,,] alphaMap = terrainData.GetAlphamaps(mapX, mapZ, 1, 1);
+
+        int maxIndex = 0;
+        float maxMix = 0;
+
+        for (int i = 0; i < alphaMap.GetLength(2); i++)
+        {
+            if (alphaMap[0, 0, i] > maxMix)
+            {
+                maxMix = alphaMap[0, 0, i];
+                maxIndex = i;
+            }
+        }
+
+        return maxIndex;
+    }
+
+    public void PlayFootstepSound()
     {
         if (!isGrounded || !isWalking || isPlayingFootstep || audioSource == null)
             return;
 
-        int groundLayer = -1;
-        Ray ray = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, 2f))
-        {
-            groundLayer = hit.collider.gameObject.layer;
-        }
-
         AudioClip selectedClip = null;
-        string layerName = LayerMask.LayerToName(groundLayer);
 
-        switch (layerName)
+        // Raycast kiểm tra object bên dưới chân
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y - (transform.localScale.y * .5f), transform.position.z);
+        Vector3 direction = Vector3.down;
+        float distance = .75f;
+
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
-            case "Dirt":
-                selectedClip = walkDirt;
-                break;
-            case "Wood":
-                selectedClip = walkWood;
-                break;
-            case "Concrete":
-                selectedClip = walkConcrete;
-                break;
+            
+
+            // Nếu đứng trên Terrain
+            if (hit.collider.TryGetComponent<Terrain>(out Terrain terrain))
+            {
+
+                int textureIndex = GetMainTextureIndex(transform.position);
+
+                switch (textureIndex)
+                {
+                    case 0:
+                        selectedClip = walkDirt;
+                        break;
+                    case 1:
+                        selectedClip = walkDirt;
+                        break;
+                    case 2:
+                        selectedClip = walkConcrete;
+                        break;
+                    case 3:
+                        selectedClip = walkClip;
+                        break;
+                    
+                }
+            }
+            // Nếu đứng trên object có SurfaceType
+            else if (hit.collider.TryGetComponent(out SurfaceType surfaceType))
+            {
+                switch (surfaceType.surface)
+                {
+                    case SurfaceTypeEnum.Dirt:
+                        selectedClip = walkDirt;
+                        break;
+                    case SurfaceTypeEnum.Wood:
+                        selectedClip = walkWood;
+                        break;
+                    case SurfaceTypeEnum.Concrete:
+                        selectedClip = walkConcrete;
+                        break;
+                }
+
+            }
+
         }
 
         if (selectedClip != null)
@@ -579,6 +638,7 @@ public class FirstPersonController : MonoBehaviour
             StartCoroutine(ResetFootstepSound(delay));
         }
     }
+
 
 
 

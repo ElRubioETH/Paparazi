@@ -10,6 +10,8 @@ TagManager:
   - Room
   - Ladder
   - Reach
+  - Enemy
+  - Concrete
   layers:
   - Default
   - TransparentFX
