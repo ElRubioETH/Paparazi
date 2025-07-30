@@ -345,6 +345,7 @@ MonoBehaviour:
   miniGameContainer: {fileID: 0}
   interactionText: {fileID: 8194458659576524746}
   interactionDistance: 2
+  InteractText: {fileID: 0}
 --- !u!4 &3149922979723956956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 518817884d82a4e4289ce3389690b7e0, type: 3}

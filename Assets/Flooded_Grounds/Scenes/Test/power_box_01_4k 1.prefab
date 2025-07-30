@@ -671,8 +671,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653b0de182527244eb681ba2e1027abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptText: {fileID: 937050706366274467}
-  miniGameCanvas: {fileID: 130701289221786314}
+  miniGameContainer: {fileID: 0}
+  interactionText: {fileID: 0}
+  interactionDistance: 2
+  InteractText: {fileID: 0}
 --- !u!65 &2906903104394029565
 BoxCollider:
   m_ObjectHideFlags: 0

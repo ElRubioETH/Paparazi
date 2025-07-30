@@ -1,18 +1,28 @@
 ﻿using TMPro;
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Hint : MonoBehaviour
 {
+    [Header("UI & Text")]
+    public string dialogue = "Dialogue";
     public TextMeshProUGUI dialogueText; // Gắn từ Inspector
-    public GameObject Dialuoge;
-    public void Show(string message)
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip dialogueClip;
+    [Header("Settings")]
+    public float timer = 2f;
+    public void Show()
     {
         if (dialogueText != null)
         {
-            dialogueText.text = message;
-            dialogueText.gameObject.SetActive(true);
-            Dialuoge.SetActive(true);
+            dialogueText.enabled = true;
+            dialogueText.text = dialogue;
+            if (audioSource != null && dialogueClip != null)
+                audioSource.PlayOneShot(dialogueClip);
+
+            StartCoroutine(DisableText());
         }
         else
         {
@@ -20,18 +30,11 @@ public class Hint : MonoBehaviour
         }
     }
 
-    public void HideAfterDelay()
+    IEnumerator DisableText()
     {
-        StartCoroutine(HideCoroutine());
-    }
+        yield return new WaitForSeconds(timer);
 
-    IEnumerator HideCoroutine()
-    {
-        yield return new WaitForSeconds(3f); // delay 3 giây
-        if (dialogueText != null)
-        {
-            dialogueText.gameObject.SetActive(false);
-            Dialuoge.SetActive(false);
-        }
+        dialogueText.enabled = false;
+
     }
 }

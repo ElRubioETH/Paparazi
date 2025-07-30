@@ -501,7 +501,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -711,7 +711,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4582,7 +4582,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5668,6 +5668,8 @@ MonoBehaviour:
   inReach: 0
   isOpen: 0
   randomNumber: 0
+  audioSource: {fileID: 0}
+  dialogueClip: {fileID: 0}
 --- !u!114 &973244459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7386,6 +7388,9 @@ MonoBehaviour:
   pickUpText: {fileID: 1520231598}
   keySound: {fileID: 858608025}
   inReach: 0
+  Afterpickup:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1249157328
 GameObject:
   m_ObjectHideFlags: 0
@@ -7457,6 +7462,8 @@ MonoBehaviour:
   katana: {fileID: 1249157328}
   anim: {fileID: 1249157330}
   haveKatana: 0
+  DmgZone: {fileID: 0}
+  swing: {fileID: 0}
 --- !u!1 &1251273063
 GameObject:
   m_ObjectHideFlags: 0
@@ -8613,6 +8620,9 @@ MonoBehaviour:
   pickUpText: {fileID: 1520231598}
   keySound: {fileID: 858608025}
   inReach: 0
+  Afterpickup:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1481225395
 Transform:
   m_ObjectHideFlags: 0
@@ -8991,6 +9001,7 @@ MonoBehaviour:
   openText: {fileID: 763725983}
   doorSound: {fileID: 1005331534}
   inReach: 0
+  isOpen: 0
 --- !u!1001 &1516659752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9381,6 +9392,7 @@ MonoBehaviour:
   openText: {fileID: 763725983}
   doorSound: {fileID: 1005331534}
   inReach: 0
+  isOpen: 0
 --- !u!1 &1541097660 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4459864850190357393, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
@@ -9496,7 +9508,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12444,10 +12456,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3627763037591626431, guid: ca3d6bd40fd3b1a49948ac3188894046, type: 3}
-  - {fileID: -6271897200390792742, guid: ca3d6bd40fd3b1a49948ac3188894046, type: 3}
-  - {fileID: -1251457731659751925, guid: ca3d6bd40fd3b1a49948ac3188894046, type: 3}
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14129,6 +14141,7 @@ MonoBehaviour:
   object03: {fileID: 1093251490}
   object04: {fileID: 1328480321}
   haveKatana: {fileID: 1977403006}
+  HaveMedkit: {fileID: 0}
 --- !u!114 &8765489994903951818
 MonoBehaviour:
   m_ObjectHideFlags: 0
