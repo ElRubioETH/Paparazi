@@ -79860,6 +79860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 580378953}
   - component: {fileID: 580378954}
+  - component: {fileID: 580378955}
   m_Layer: 6
   m_Name: FlashLight
   m_TagString: Untagged
@@ -79947,6 +79948,29 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &580378955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580378952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &580465538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165062,7 +165086,7 @@ Transform:
   m_GameObject: {fileID: 1174680166}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29.5, y: -7.3, z: 271.6}
+  m_LocalPosition: {x: -22.52, y: -7.3, z: 382.72}
   m_LocalScale: {x: 31.053541, y: 31.053541, z: 31.053541}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -165096,13 +165120,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textOB: {fileID: 261428633}
-  dialogue: "\u0110\u01B0\u1EDDng ph\xEDa tr\u01B0\u1EDBc \u0111\xE3 b\u1ECB ch\u1EB7n,
-    m\xECnh t\u1ED1t nh\u1EA5t n\xEAn qu\u1EB9o ph\u1EA3i, c\xF3 nh\u1EEFng ng\xF4i
-    nh\xE0 \u1EDF \u0111\xF3"
+  dialogue: "\u1EDE \u0111\xE2y c\xF3 nh\u1EEFng c\u1EA7n g\u1EA1t, \u0111\u1EC3
+    \u0111i ti\u1EBFp m\xECnh c\u1EA7n gi\u1EA3i m\xE3 c\xE1c c\u1EA7n g\u1EA1t n\xE0y,
+    nh\u1EEFng ng\xF4i nh\xE0 n\xE0y ch\xEDnh l\xE0 manh m\u1ED7i"
   timer: 2
   Activator: {fileID: 1174680166}
   audioSource: {fileID: 1623465556}
-  dialogueClip: {fileID: 8300000, guid: a54740fdac1507b418c1fc831eb6ac50, type: 3}
+  dialogueClip: {fileID: 8300000, guid: be1777b4be204d94a80c097269144104, type: 3}
   onDialogueEnd:
     m_PersistentCalls:
       m_Calls:
@@ -167719,6 +167743,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1194554257}
   - component: {fileID: 1194554256}
+  - component: {fileID: 1194554258}
   m_Layer: 0
   m_Name: SUN
   m_TagString: Untagged
@@ -167806,6 +167831,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1194554258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194554255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1194608414
 PrefabInstance:
   m_ObjectHideFlags: 0
