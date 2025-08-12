@@ -1,0 +1,49 @@
+fileFormatVersion: 2
+guid: 70ff2a55fdbad8c419a45137269b4118
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\scene.bin
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\scene.bin
+  - type: 1
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_baseColor.png
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_baseColor.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_normal.png
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_1_baseColor.png
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_1_baseColor.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_1_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_1_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_1_normal.png
+    assetPath: Assets\DarkLordMap\fence_concrete-_15mb\textures\material_1_normal.png
+  reportItems: []
