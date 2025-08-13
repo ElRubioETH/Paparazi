@@ -11,11 +11,12 @@ public class EnemyAI3 : MonoBehaviour
     public Transform player;
     private PlayerStateTracker playerController;
 
-    public Transform patrolPointA;
-    public Transform patrolPointB;
-    private Transform currentPatrolTarget;
+    [Header("Patrol Settings")]
+    public Transform[] patrolPoints;
+    private int currentPatrolIndex = 0;
     public float patrolSpeed = 2f;
 
+    [Header("Detection Ranges")]
     public float nearRange = 5f;
     public float farRange = 15f;
     public float attackRange = 2f;
@@ -25,9 +26,11 @@ public class EnemyAI3 : MonoBehaviour
     private enum State { Patrol, Chase, Attack, Idle }
     private State currentState;
 
+    [Header("Attack Settings")]
     public float attackCooldown = 2f;
     private float lastAttackTime;
 
+    [Header("Sounds")]
     public AudioClip patrolSound;
     public AudioClip chaseSound;
     public AudioClip attackSound;
@@ -47,7 +50,8 @@ public class EnemyAI3 : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        if (agent == null || !agent.isOnNavMesh || animator == null || audioSource == null || player == null || player.GetComponent<PlayerStateTracker>() == null || patrolPointA == null || patrolPointB == null)
+        if (agent == null || !agent.isOnNavMesh || animator == null || audioSource == null || player == null ||
+            player.GetComponent<PlayerStateTracker>() == null || patrolPoints == null || patrolPoints.Length == 0)
         {
             enabled = false;
             return;
@@ -55,7 +59,6 @@ public class EnemyAI3 : MonoBehaviour
 
         playerController = player.GetComponent<PlayerStateTracker>();
         currentState = State.Patrol;
-        currentPatrolTarget = patrolPointA;
         agent.speed = patrolSpeed;
         audioSource.playOnAwake = false;
 
@@ -72,7 +75,8 @@ public class EnemyAI3 : MonoBehaviour
 
         if (currentState == State.Chase && player != null)
         {
-            if (Time.time - lastDestinationUpdateTime >= destinationUpdateInterval || Vector3.Distance(player.position, lastPlayerPosition) > minDistanceToUpdateDestination)
+            if (Time.time - lastDestinationUpdateTime >= destinationUpdateInterval ||
+                Vector3.Distance(player.position, lastPlayerPosition) > minDistanceToUpdateDestination)
             {
                 agent.SetDestination(player.position);
                 lastDestinationUpdateTime = Time.time;
@@ -86,8 +90,7 @@ public class EnemyAI3 : MonoBehaviour
 
         if (currentState == State.Patrol && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
         {
-            currentPatrolTarget = (currentPatrolTarget == patrolPointA) ? patrolPointB : patrolPointA;
-            agent.SetDestination(currentPatrolTarget.position);
+            GoToNextPatrolPoint();
         }
 
         if (currentState == State.Idle)
@@ -112,6 +115,13 @@ public class EnemyAI3 : MonoBehaviour
             idleTimer = 0f;
             isWaitingToPatrol = false;
         }
+    }
+
+    void GoToNextPatrolPoint()
+    {
+        if (patrolPoints.Length == 0) return;
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
     }
 
     void DetermineNextState(float distanceToPlayer)
@@ -187,7 +197,10 @@ public class EnemyAI3 : MonoBehaviour
             case State.Patrol:
                 agent.speed = patrolSpeed;
                 animator.SetBool("isWalking", true);
-                agent.SetDestination(currentPatrolTarget.position);
+                if (patrolPoints.Length > 0)
+                {
+                    agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+                }
                 break;
             case State.Chase:
                 agent.speed = chaseSpeed;
@@ -230,26 +243,6 @@ public class EnemyAI3 : MonoBehaviour
         {
             animator.SetTrigger("attack");
             lastAttackTime = Time.time;
-        }
-    }
-
-    private IEnumerator WaitAndSwitchToPatrol()
-    {
-        isWaitingToPatrol = true;
-        SwitchState(State.Idle);
-        yield return new WaitForSeconds(maxIdleTime);
-        if (currentState == State.Idle)
-        {
-            isWaitingToPatrol = false;
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > nearRange || !playerController.isMoving)
-            {
-                SwitchState(State.Patrol);
-            }
-            else
-            {
-                SwitchState(State.Chase);
-            }
         }
     }
 
@@ -305,7 +298,13 @@ public class EnemyAI3 : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
         Gizmos.color = Color.blue;
-        if (patrolPointA != null) Gizmos.DrawWireCube(patrolPointA.position, Vector3.one);
-        if (patrolPointB != null) Gizmos.DrawWireCube(patrolPointB.position, Vector3.one);
+        if (patrolPoints != null)
+        {
+            foreach (var point in patrolPoints)
+            {
+                if (point != null)
+                    Gizmos.DrawWireCube(point.position, Vector3.one);
+            }
+        }
     }
 }
