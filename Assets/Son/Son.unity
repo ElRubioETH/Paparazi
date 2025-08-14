@@ -2864,6 +2864,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 307751753}
     - target: {fileID: 1832601875057810758, guid: c77cb4fb8065fc34ca087d116837c291, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832601875057810758, guid: c77cb4fb8065fc34ca087d116837c291, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -6791,6 +6795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1343352404}
   - component: {fileID: 1343352403}
+  - component: {fileID: 1343352405}
   m_Layer: 0
   m_Name: Point1
   m_TagString: Untagged
@@ -6845,6 +6850,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1343352405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343352402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a717032449c24d9d1682b8c440cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolPoints:
+  - {fileID: 1343352404}
 --- !u!1 &1350898740
 GameObject:
   m_ObjectHideFlags: 0
