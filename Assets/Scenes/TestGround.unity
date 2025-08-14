@@ -5730,10 +5730,9 @@ MonoBehaviour:
   - {fileID: 8717126144251655300}
   - {fileID: 7383286122686962884}
   - {fileID: 8031033584786399608}
-  whaleAudioSource: {fileID: 0}
-  screamAudioSource: {fileID: 0}
+  audioSource: {fileID: 418994663}
   whaleSound: {fileID: 8300000, guid: eaa0a72f6aa154b409b2afcb0a2ae256, type: 3}
-  screamSound: {fileID: 8300000, guid: 861fdfc24a36c3f42967a946b58dc9f0, type: 3}
+  screamSound: {fileID: 8300000, guid: 24f24f6bb3c4a6b48958df57db11cb94, type: 3}
   whaleSoundIntervalMin: 5
   whaleSoundIntervalMax: 10
 --- !u!82 &418994663
