@@ -72,8 +72,8 @@ public class InteractSequence : MonoBehaviour
         finalPanel.SetActive(true);
         StopAudioIfPlaying();
 
-        //yield return new WaitForSeconds(1f); // đợi thêm 1 giây rồi chuyển cảnh
-        //SceneManager.LoadScene("Stage3");
+        yield return new WaitForSeconds(1f); // đợi thêm 1 giây rồi chuyển cảnh
+        SceneManager.LoadScene("Stage3");
     }
 
     void PlayAudio(AudioClip clip)
