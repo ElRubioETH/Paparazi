@@ -6,7 +6,12 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pausePanel;
     private bool isPaused = false;
+    public MonoBehaviour playerController;
+    private void Start()
+    {
+        playerController.enabled = true;
 
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -25,6 +30,8 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        playerController.enabled = false;
+
     }
 
     public void Resume()
@@ -34,6 +41,8 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        playerController.enabled = true;
+
     }
 
     public void QuitGame()
