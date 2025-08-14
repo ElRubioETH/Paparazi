@@ -11,8 +11,6 @@ public class DoorController : MonoBehaviour
 
     void Start()
     {
-        if (lever != null)
-            lever.SetActive(false); // ẩn lever ban đầu
     }
 
     public void ReportBoxFixed()
@@ -23,9 +21,7 @@ public class DoorController : MonoBehaviour
         if (fixedCount >= requiredBoxes && !isUnlocked)
         {
             isUnlocked = true;
-            if (lever != null)
-                lever.SetActive(true);
-            Debug.Log("Tất cả hộp đã sửa. Cần gạt đã bật.");
+
         }
     }
     public bool IsUnlocked()
