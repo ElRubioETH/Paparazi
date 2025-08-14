@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
@@ -13,7 +13,7 @@ public class EnemyAI3 : MonoBehaviour
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
-    private int currentPatrolIndex = 0;
+    private int currentPatrolIndex = -1; // bắt đầu -1 để lần đầu vào patrol sẽ chọn điểm đầu tiên
     public float patrolSpeed = 2f;
 
     [Header("Detection Ranges")]
@@ -46,6 +46,7 @@ public class EnemyAI3 : MonoBehaviour
 
     void Start()
     {
+
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -88,9 +89,13 @@ public class EnemyAI3 : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
         }
 
-        if (currentState == State.Patrol && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
+        if (currentState == State.Patrol && !agent.pathPending)
         {
-            GoToNextPatrolPoint();
+            // Dùng khoảng cách thực tế thay vì stoppingDistance
+            if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) <= 0.3f)
+            {
+                GoToNextPatrolPoint();
+            }
         }
 
         if (currentState == State.Idle)
@@ -120,6 +125,7 @@ public class EnemyAI3 : MonoBehaviour
     void GoToNextPatrolPoint()
     {
         if (patrolPoints.Length == 0) return;
+
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         agent.SetDestination(patrolPoints[currentPatrolIndex].position);
     }
@@ -197,11 +203,9 @@ public class EnemyAI3 : MonoBehaviour
             case State.Patrol:
                 agent.speed = patrolSpeed;
                 animator.SetBool("isWalking", true);
-                if (patrolPoints.Length > 0)
-                {
-                    agent.SetDestination(patrolPoints[currentPatrolIndex].position);
-                }
+                GoToNextPatrolPoint();
                 break;
+
             case State.Chase:
                 agent.speed = chaseSpeed;
                 animator.SetBool("isRunning", true);
@@ -212,9 +216,11 @@ public class EnemyAI3 : MonoBehaviour
                     lastDestinationUpdateTime = Time.time;
                 }
                 break;
+
             case State.Attack:
                 Attack();
                 break;
+
             case State.Idle:
                 animator.SetBool("isIdle", true);
                 if (player != null)
