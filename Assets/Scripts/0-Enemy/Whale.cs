@@ -1,56 +1,105 @@
 ﻿using UnityEngine;
 
-public class EnemyFlying : MonoBehaviour
+public class FlyingWhale : MonoBehaviour
 {
-    public Transform[] rayPoints; // 4 điểm phát ray
-    public float rayLength = 2f;
-    public LayerMask playerLayer;
+    [Header("Patrol Settings")]
+    public Transform[] waypoints;
+    public float moveSpeed = 3f;
+    public float arriveDistance = 0.5f;
+    private int currentWaypointIndex = 0;
 
+    [Header("Attack Settings")]
     public float damage = 10f;
-    public AudioSource audioSource;
-    public AudioClip whaleSound; // tiếng "rú" lâu lâu
-    public AudioClip screamSound; // tiếng hét khi player vào ray
+    public Collider[] attackColliders;
 
+    [Header("Sound")]
+    public AudioSource audioSource;     // Dùng chung cho cả whaleSound và screamSound
+    public AudioClip whaleSound;
+    public AudioClip screamSound;
     public float whaleSoundIntervalMin = 5f;
     public float whaleSoundIntervalMax = 10f;
-
     private float whaleSoundTimer;
+
+    private bool isScreaming = false;   // Tránh overlap nhiều scream liên tiếp
 
     void Start()
     {
-        // Hẹn giờ ngẫu nhiên lần đầu
+        foreach (Collider col in attackColliders)
+        {
+            col.isTrigger = true;
+            TriggerForwarder forwarder = col.gameObject.AddComponent<TriggerForwarder>();
+            forwarder.Setup(this);
+        }
+
         whaleSoundTimer = Random.Range(whaleSoundIntervalMin, whaleSoundIntervalMax);
     }
 
     void Update()
     {
-        // Kiểm tra 4 ray
-        foreach (Transform rayPoint in rayPoints)
+        MoveBetweenWaypoints();
+        WhaleSoundTimer();
+    }
+
+    void MoveBetweenWaypoints()
+    {
+        if (waypoints.Length == 0) return;
+
+        Transform targetPoint = waypoints[currentWaypointIndex];
+        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
+
+        Vector3 dir = (targetPoint.position - transform.position).normalized;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(dir);
+
+        if (Vector3.Distance(transform.position, targetPoint.position) <= arriveDistance)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(rayPoint.position, rayPoint.forward, out hit, rayLength, playerLayer))
-            {
-                PlayerHealth playerHealth = hit.collider.GetComponent<PlayerHealth>();
-                if (playerHealth != null)
-                {
-                    playerHealth.TakeDamage(damage);
-
-                    // Phát tiếng hét
-                    if (!audioSource.isPlaying)
-                        audioSource.PlayOneShot(screamSound);
-                }
-            }
-
-            // Vẽ ray debug trong Scene
-            Debug.DrawRay(rayPoint.position, rayPoint.forward * rayLength, Color.red);
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
         }
+    }
 
-        // Đếm thời gian phát tiếng cá voi
+    void WhaleSoundTimer()
+    {
+        if (isScreaming) return; // đang scream thì không phát whaleSound
+
         whaleSoundTimer -= Time.deltaTime;
         if (whaleSoundTimer <= 0)
         {
-            audioSource.PlayOneShot(whaleSound);
+            audioSource.clip = whaleSound;
+            audioSource.Play();
             whaleSoundTimer = Random.Range(whaleSoundIntervalMin, whaleSoundIntervalMax);
+        }
+    }
+
+    public void OnPlayerEnter(Collider playerCollider)
+    {
+        PlayerHealth playerHealth = playerCollider.GetComponent<PlayerHealth>();
+        if (playerHealth != null && !isScreaming)
+        {
+            playerHealth.TakeDamage(damage);
+
+            // Dừng whale sound và phát scream
+            audioSource.Stop();
+            audioSource.clip = screamSound;
+            audioSource.Play();
+
+            isScreaming = true;
+            Invoke(nameof(ResetScream), screamSound.length);
+        }
+    }
+
+    void ResetScream()
+    {
+        isScreaming = false;
+    }
+
+    private class TriggerForwarder : MonoBehaviour
+    {
+        private FlyingWhale whale;
+        public void Setup(FlyingWhale w) => whale = w;
+
+        void OnTriggerEnter(Collider other)
+        {
+            whale.OnPlayerEnter(other);
         }
     }
 }
