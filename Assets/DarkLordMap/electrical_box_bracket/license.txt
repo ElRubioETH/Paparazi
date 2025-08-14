@@ -1,0 +1,11 @@
+Model Information:
+* title:	Electrical box bracket
+* source:	https://sketchfab.com/3d-models/electrical-box-bracket-b5cf37ccdb9d4b4ca4c68c0121f976f6
+* author:	ChrisG (https://sketchfab.com/christianguevara)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Electrical box bracket" (https://sketchfab.com/3d-models/electrical-box-bracket-b5cf37ccdb9d4b4ca4c68c0121f976f6) by ChrisG (https://sketchfab.com/christianguevara) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
