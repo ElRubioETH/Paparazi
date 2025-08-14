@@ -1,0 +1,11 @@
+Model Information:
+* title:	10kV high-voltage power distribution room  高压配电室
+* source:	https://sketchfab.com/3d-models/10kv-high-voltage-power-distribution-room-01c0fa6ae39448caac9b6f773ce7eab2
+* author:	MrdT (https://sketchfab.com/mrdt.club)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "10kV high-voltage power distribution room  高压配电室" (https://sketchfab.com/3d-models/10kv-high-voltage-power-distribution-room-01c0fa6ae39448caac9b6f773ce7eab2) by MrdT (https://sketchfab.com/mrdt.club) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

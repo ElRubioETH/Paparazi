@@ -1,0 +1,11 @@
+Model Information:
+* title:	Electrical box
+* source:	https://sketchfab.com/3d-models/electrical-box-6b385a0693b34d5e997773ef675bd637
+* author:	starkerg (https://sketchfab.com/starkerg)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Electrical box" (https://sketchfab.com/3d-models/electrical-box-6b385a0693b34d5e997773ef675bd637) by starkerg (https://sketchfab.com/starkerg) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

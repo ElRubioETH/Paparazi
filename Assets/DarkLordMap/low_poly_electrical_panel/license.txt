@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Electrical Panel
+* source:	https://sketchfab.com/3d-models/low-poly-electrical-panel-8aa749b828aa4189bc99c8dd6bb7314d
+* author:	YapGamedev (https://sketchfab.com/yapgamedev)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Electrical Panel" (https://sketchfab.com/3d-models/low-poly-electrical-panel-8aa749b828aa4189bc99c8dd6bb7314d) by YapGamedev (https://sketchfab.com/yapgamedev) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
