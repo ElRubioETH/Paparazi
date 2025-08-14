@@ -1,0 +1,11 @@
+Model Information:
+* title:	Electrical panel B
+* source:	https://sketchfab.com/3d-models/electrical-panel-b-6a5fed21b5754a2a9623a5faaf9f1552
+* author:	ghimpster (https://sketchfab.com/ghimpster)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Electrical panel B" (https://sketchfab.com/3d-models/electrical-panel-b-6a5fed21b5754a2a9623a5faaf9f1552) by ghimpster (https://sketchfab.com/ghimpster) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

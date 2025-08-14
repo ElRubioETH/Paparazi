@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 79297991f3df438438004d3c1505cd21
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\scene.bin
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\scene.bin
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticRed_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticRed_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticRed_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticRed_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticRed_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticRed_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\smallMetal_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\smallMetal_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\smallMetal_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\smallMetal_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\smallMetal_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\smallMetal_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticTop_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticTop_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticTop_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticTop_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticTop_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plasticTop_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\solder_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\solder_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\solder_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\solder_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\solder_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\solder_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\connect_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\connect_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\connect_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\connect_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\connect_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\connect_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\holder_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\holder_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\holder_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\holder_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\holder_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\holder_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\Material_001_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\Material_001_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\Material_001_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\Material_001_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\Material_001_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\Material_001_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\shell_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\shell_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\shell_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\shell_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\shell_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\shell_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\rubber_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\rubber_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\rubber_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\rubber_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\rubber_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\rubber_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plug_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plug_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plug_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plug_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plug_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\plug_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\screw_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\screw_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\screw_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\screw_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\screw_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\screw_normal.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\grey_metal_baseColor.jpeg
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\grey_metal_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\grey_metal_metallicRoughness.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\grey_metal_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\DarkLordMap\mounted_motor_electrical_component\textures\grey_metal_normal.png
+    assetPath: Assets\DarkLordMap\mounted_motor_electrical_component\textures\grey_metal_normal.png
+  reportItems: []

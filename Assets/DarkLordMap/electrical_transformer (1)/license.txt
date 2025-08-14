@@ -1,0 +1,11 @@
+Model Information:
+* title:	Electrical Transformer
+* source:	https://sketchfab.com/3d-models/electrical-transformer-b55aa6ccdfd1454899e081d9b4fce48d
+* author:	Nazzareno Giannelli (https://sketchfab.com/nazzarenogiannelli)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Electrical Transformer" (https://sketchfab.com/3d-models/electrical-transformer-b55aa6ccdfd1454899e081d9b4fce48d) by Nazzareno Giannelli (https://sketchfab.com/nazzarenogiannelli) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
