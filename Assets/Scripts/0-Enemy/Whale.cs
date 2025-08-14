@@ -5,6 +5,7 @@ public class FlyingWhale : MonoBehaviour
     [Header("Patrol Settings")]
     public Transform[] waypoints;
     public float moveSpeed = 3f;
+    public float rotationSpeed = 2f; // tốc độ xoay mượt
     public float arriveDistance = 0.5f;
     private int currentWaypointIndex = 0;
 
@@ -45,12 +46,27 @@ public class FlyingWhale : MonoBehaviour
         if (waypoints.Length == 0) return;
 
         Transform targetPoint = waypoints[currentWaypointIndex];
-        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
 
+        // Di chuyển
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            targetPoint.position,
+            moveSpeed * Time.deltaTime
+        );
+
+        // Xoay mượt về hướng target
         Vector3 dir = (targetPoint.position - transform.position).normalized;
         if (dir != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(dir);
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+        }
 
+        // Kiểm tra tới waypoint
         if (Vector3.Distance(transform.position, targetPoint.position) <= arriveDistance)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;

@@ -8,7 +8,7 @@ public class GateLeverInteraction : MonoBehaviour
     public GameObject InteractText;
     public bool inReach;
     public Animator LeverAnimation;
-
+    public bool Electricfy = false;
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Reach"))
@@ -37,6 +37,7 @@ public class GateLeverInteraction : MonoBehaviour
                 LeverAnimation.SetTrigger("Pull");
                 canPull = false;
                 InteractText.SetActive(false);
+                Electricfy = true;
             }
             else
             {
