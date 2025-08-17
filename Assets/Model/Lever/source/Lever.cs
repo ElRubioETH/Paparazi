@@ -16,6 +16,7 @@ public class LeverPuzzle : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource errorSound;
+    public AudioSource doorOpenSound; // âm thanh mở cửa
 
     public void PullLever(int index)
     {
@@ -44,6 +45,10 @@ public class LeverPuzzle : MonoBehaviour
         {
             Debug.Log("Puzzle completed thành công!");
             doorAnimator.SetTrigger("Open");
+
+            // Phát âm thanh mở cửa
+            if (doorOpenSound != null)
+                doorOpenSound.Play();
         }
     }
 

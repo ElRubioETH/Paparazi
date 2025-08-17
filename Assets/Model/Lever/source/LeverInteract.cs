@@ -6,6 +6,9 @@ public class LeverTrigger : MonoBehaviour
     public int leverIndex;
     public GameObject interactText;
 
+    [Header("Audio Settings")]
+    public AudioSource leverSound; // âm thanh khi gạt cần
+
     private bool inReach = false;
 
     private void OnTriggerEnter(Collider other)
@@ -32,7 +35,13 @@ public class LeverTrigger : MonoBehaviour
     {
         if (inReach && Input.GetButtonDown("Interact"))
         {
+            // Phát âm thanh gạt cần
+            if (leverSound != null)
+                leverSound.Play();
+
+            // Báo cho PuzzleManager
             puzzleManager.PullLever(leverIndex);
+
             if (interactText != null)
                 interactText.SetActive(false);
         }
