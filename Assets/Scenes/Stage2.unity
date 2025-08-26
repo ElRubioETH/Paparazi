@@ -80429,11 +80429,11 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 0.8105011, b: 0.5990566, a: 1}
-  m_Intensity: 5
-  m_Range: 35
-  m_SpotAngle: 58.310608
-  m_InnerSpotAngle: 5
+  m_Color: {r: 0.9924528, g: 0.9924528, b: 0.9924528, a: 1}
+  m_Intensity: 30
+  m_Range: 6000
+  m_SpotAngle: 53.310608
+  m_InnerSpotAngle: 0
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
