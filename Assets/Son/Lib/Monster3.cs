@@ -9,8 +9,7 @@ public class EnemyAI3 : MonoBehaviour
     private AudioSource audioSource;
 
     public Transform player;
-    private Rigidbody playerRigidbody;
-    private CharacterController playerCharacterController;
+    private PlayerStateTracker playerState; // dùng để lấy trạng thái player
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
@@ -24,10 +23,6 @@ public class EnemyAI3 : MonoBehaviour
     public float attackRange = 2f;
     public float chaseSpeed = 5f;
     public float maxChaseDistance = 25f;
-
-    [Header("Player Detection")]
-    public float movementThreshold = 0.1f; // Tốc độ tối thiểu để coi là đang di chuyển
-    public float crouchDetectionHeight = 1.5f; // Chiều cao để phát hiện crouch
 
     private enum State { Patrol, Chase, Attack, Idle, PatrolWaiting }
     private State currentState;
@@ -46,13 +41,6 @@ public class EnemyAI3 : MonoBehaviour
     public float maxIdleTime = 3f;
     private float patrolWaitTimer = 0f;
 
-    private float lastDestinationUpdateTime;
-    private Vector3 lastPlayerPosition;
-    private float destinationUpdateInterval = 0.3f;
-    private float minDistanceToUpdateDestination = 1f;
-
-    // Để theo dõi movement của player
-    private Vector3 previousPlayerPosition;
     private bool playerIsMoving = false;
     private bool playerIsCrouching = false;
 
@@ -62,7 +50,6 @@ public class EnemyAI3 : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        // Kiểm tra components cơ bản
         if (agent == null)
         {
             Debug.LogError("EnemyAI3: NavMeshAgent component missing!");
@@ -91,16 +78,12 @@ public class EnemyAI3 : MonoBehaviour
             return;
         }
 
-        // Tìm component di chuyển của player
-        playerRigidbody = player.GetComponent<Rigidbody>();
-        playerCharacterController = player.GetComponent<CharacterController>();
-
-        if (playerRigidbody == null && playerCharacterController == null)
+        playerState = player.GetComponent<PlayerStateTracker>();
+        if (playerState == null)
         {
-            Debug.LogWarning("EnemyAI3: Player has no Rigidbody or CharacterController. Will use position tracking for movement detection.");
+            Debug.LogError("EnemyAI3: PlayerStateTracker missing on Player!");
         }
 
-        // Kiểm tra patrol points hợp lệ
         for (int i = 0; i < patrolPoints.Length; i++)
         {
             if (patrolPoints[i] == null)
@@ -111,7 +94,6 @@ public class EnemyAI3 : MonoBehaviour
             }
         }
 
-        // Setup agent
         agent.speed = patrolSpeed;
         agent.isStopped = false;
         agent.updateRotation = true;
@@ -123,34 +105,20 @@ public class EnemyAI3 : MonoBehaviour
         }
 
         currentState = State.Patrol;
-        previousPlayerPosition = player.position;
-        
         Debug.Log("EnemyAI3: Starting patrol system...");
-        
-        // Bắt đầu patrol
+
         StartCoroutine(InitializePatrol());
     }
 
     IEnumerator InitializePatrol()
     {
-        yield return null; // Wait one frame
-        
+        yield return null;
         if (patrolPoints.Length > 0 && patrolPoints[currentPatrolIndex] != null)
         {
-            Vector3 targetPos = patrolPoints[currentPatrolIndex].position;
-            Debug.Log($"Setting initial destination to patrol point {currentPatrolIndex}: {targetPos}");
-            
-            if (agent.SetDestination(targetPos))
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+            if (animator != null)
             {
-                Debug.Log("Successfully set destination");
-                if (animator != null)
-                {
-                    animator.SetBool("isWalking", true);
-                }
-            }
-            else
-            {
-                Debug.LogError("Failed to set destination");
+                animator.SetBool("isWalking", true);
             }
         }
     }
@@ -159,19 +127,15 @@ public class EnemyAI3 : MonoBehaviour
     {
         if (player == null || !agent.isOnNavMesh) return;
 
-        // Cập nhật thông tin player
-        UpdatePlayerState();
-        
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        
-        // Debug thông tin cơ bản
-        if (Time.frameCount % 60 == 0) // Log mỗi 60 frames (khoảng 1 giây)
+        // lấy trạng thái từ PlayerStateTracker
+        if (playerState != null)
         {
-            Debug.Log($"State: {currentState}, Distance: {distanceToPlayer:F2}, Player moving: {playerIsMoving}, Player crouching: {playerIsCrouching}");
-            Debug.Log($"Agent: velocity={agent.velocity.magnitude:F2}, hasPath={agent.hasPath}, remaining={agent.remainingDistance:F2}");
+            playerIsMoving = playerState.isMoving;
+            playerIsCrouching = playerState.isCrouching;
         }
-        
-        // Xử lý patrol waiting state
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
         if (currentState == State.PatrolWaiting)
         {
             patrolWaitTimer += Time.deltaTime;
@@ -182,55 +146,53 @@ public class EnemyAI3 : MonoBehaviour
                 return;
             }
         }
-        
-        // Chỉ thay đổi state nếu player ở gần
+
         if (distanceToPlayer <= farRange)
         {
             DetermineNextState(distanceToPlayer);
         }
         else if (currentState != State.Patrol && currentState != State.PatrolWaiting)
         {
-            // Nếu player ở xa, trở về patrol
             SwitchState(State.Patrol);
         }
-        
+
         ManageAudio(distanceToPlayer);
 
-        // Chase behavior
+        // --- FIX CHASE ---
         if (currentState == State.Chase && player != null)
         {
-            if (Time.time - lastDestinationUpdateTime >= destinationUpdateInterval ||
-                Vector3.Distance(player.position, lastPlayerPosition) > minDistanceToUpdateDestination)
+            if (agent.isOnNavMesh)
             {
+                agent.isStopped = false; // đảm bảo không bị stop
+                agent.speed = chaseSpeed;
                 agent.SetDestination(player.position);
-                lastDestinationUpdateTime = Time.time;
-                lastPlayerPosition = player.position;
+
+                Debug.Log($"[CHASE] isStopped={agent.isStopped}, hasPath={agent.hasPath}, " +
+                          $"pathStatus={agent.pathStatus}, velocity={agent.velocity.magnitude:F2}, " +
+                          $"remaining={agent.remainingDistance:F2}");
             }
 
+            // quay mặt về phía player
             Vector3 direction = (player.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
         }
 
-        // Patrol movement logic
         if (currentState == State.Patrol)
         {
             if (!agent.pathPending && agent.hasPath)
             {
                 if (agent.remainingDistance < 0.5f && agent.velocity.magnitude < 0.1f)
                 {
-                    Debug.Log("Reached patrol point, switching to waiting");
                     SwitchState(State.PatrolWaiting);
                 }
             }
             else if (!agent.hasPath && !agent.pathPending)
             {
-                Debug.Log("No path found, retrying...");
                 GoToNextPatrolPoint();
             }
         }
 
-        // Idle behavior
         if (currentState == State.Idle)
         {
             idleTimer += Time.deltaTime;
@@ -255,92 +217,18 @@ public class EnemyAI3 : MonoBehaviour
         }
     }
 
-    void UpdatePlayerState()
-    {
-        // Phát hiện movement bằng cách so sánh position
-        Vector3 currentPlayerPosition = player.position;
-        float movementSpeed = 0f;
-
-        if (playerRigidbody != null)
-        {
-            movementSpeed = playerRigidbody.linearVelocity.magnitude;
-        }
-        else if (playerCharacterController != null)
-        {
-            movementSpeed = playerCharacterController.velocity.magnitude;
-        }
-        else
-        {
-            // Fallback: tính toán từ position
-            movementSpeed = Vector3.Distance(currentPlayerPosition, previousPlayerPosition) / Time.deltaTime;
-        }
-
-        playerIsMoving = movementSpeed > movementThreshold;
-        
-        // Phát hiện crouching bằng cách kiểm tra chiều cao
-        // Giả sử player bình thường cao hơn crouchDetectionHeight
-        if (playerCharacterController != null)
-        {
-            playerIsCrouching = playerCharacterController.height < crouchDetectionHeight;
-        }
-        else
-        {
-            // Fallback: kiểm tra scale hoặc position Y
-            playerIsCrouching = player.localScale.y < 1f || player.position.y < transform.position.y - 0.5f;
-        }
-
-        previousPlayerPosition = currentPlayerPosition;
-    }
-
     void GoToNextPatrolPoint()
     {
-        if (patrolPoints.Length == 0) 
-        {
-            Debug.LogError("No patrol points available");
-            return;
-        }
-
+        if (patrolPoints.Length == 0) return;
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-        
         if (patrolPoints[currentPatrolIndex] != null)
         {
-            Vector3 targetPos = patrolPoints[currentPatrolIndex].position;
-            Debug.Log($"Moving to patrol point {currentPatrolIndex}: {targetPos}");
-            
-            // Kiểm tra path
-            NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(targetPos, path))
-            {
-                if (path.status == NavMeshPathStatus.PathComplete)
-                {
-                    agent.SetPath(path);
-                    Debug.Log("Path calculated successfully");
-                }
-                else
-                {
-                    Debug.LogWarning($"Incomplete path to patrol point {currentPatrolIndex}, trying SetDestination anyway");
-                    agent.SetDestination(targetPos);
-                }
-            }
-            else
-            {
-                Debug.LogError($"Cannot calculate path to patrol point {currentPatrolIndex}");
-                // Thử điểm tiếp theo
-                if (patrolPoints.Length > 1)
-                {
-                    GoToNextPatrolPoint();
-                }
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"Patrol point {currentPatrolIndex} is null!");
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
         }
     }
 
     void DetermineNextState(float distanceToPlayer)
     {
-        // Không thay đổi state nếu đang trong PatrolWaiting
         if (currentState == State.PatrolWaiting) return;
 
         State nextState = currentState;
@@ -360,25 +248,12 @@ public class EnemyAI3 : MonoBehaviour
                 nextState = State.Idle;
                 isWaitingToPatrol = true;
             }
-            else if (currentState != State.Idle)
-            {
-                nextState = State.Patrol;
-            }
         }
         else if (distanceToPlayer <= farRange && distanceToPlayer <= maxChaseDistance)
         {
             if (playerIsMoving && !playerIsCrouching)
             {
                 nextState = State.Chase;
-            }
-            else if (currentState == State.Chase || currentState == State.Attack)
-            {
-                nextState = State.Idle;
-                isWaitingToPatrol = true;
-            }
-            else
-            {
-                nextState = State.Patrol;
             }
         }
         else if (currentState == State.Chase || currentState == State.Attack)
@@ -399,10 +274,8 @@ public class EnemyAI3 : MonoBehaviour
 
     void SwitchState(State newState)
     {
-        Debug.Log($"Switching from {currentState} to {newState}");
         currentState = newState;
 
-        // Reset animation flags
         if (animator != null)
         {
             animator.SetBool("isWalking", false);
@@ -410,7 +283,6 @@ public class EnemyAI3 : MonoBehaviour
             animator.SetBool("isIdle", false);
         }
 
-        // Reset agent state
         agent.isStopped = false;
 
         switch (currentState)
@@ -418,7 +290,6 @@ public class EnemyAI3 : MonoBehaviour
             case State.Patrol:
                 agent.speed = patrolSpeed;
                 if (animator != null) animator.SetBool("isWalking", true);
-                agent.isStopped = false;
                 GoToNextPatrolPoint();
                 break;
 
@@ -431,13 +302,7 @@ public class EnemyAI3 : MonoBehaviour
             case State.Chase:
                 agent.speed = chaseSpeed;
                 if (animator != null) animator.SetBool("isRunning", true);
-                agent.isStopped = false;
-                if (player != null)
-                {
-                    agent.SetDestination(player.position);
-                    lastPlayerPosition = player.position;
-                    lastDestinationUpdateTime = Time.time;
-                }
+                if (player != null) agent.SetDestination(player.position);
                 break;
 
             case State.Attack:
@@ -448,12 +313,6 @@ public class EnemyAI3 : MonoBehaviour
             case State.Idle:
                 agent.isStopped = true;
                 if (animator != null) animator.SetBool("isIdle", true);
-                if (player != null)
-                {
-                    Vector3 direction = (player.position - transform.position).normalized;
-                    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-                }
                 break;
         }
     }
@@ -461,17 +320,9 @@ public class EnemyAI3 : MonoBehaviour
     void Attack()
     {
         agent.isStopped = true;
-        if (player != null)
-        {
-            transform.LookAt(player);
-        }
-
+        if (player != null) transform.LookAt(player);
         if (animator != null)
         {
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isIdle", true);
-
             if (Time.time - lastAttackTime >= attackCooldown)
             {
                 animator.SetTrigger("attack");
@@ -483,111 +334,24 @@ public class EnemyAI3 : MonoBehaviour
     void ManageAudio(float distanceToPlayer)
     {
         if (audioSource == null) return;
-
         AudioClip targetClip = null;
         bool loop = false;
-
         switch (currentState)
         {
             case State.Patrol:
             case State.PatrolWaiting:
-                if (distanceToPlayer <= 20f)
-                {
-                    targetClip = patrolSound;
-                    loop = true;
-                }
+                if (distanceToPlayer <= 20f) { targetClip = patrolSound; loop = true; }
                 break;
             case State.Chase:
-                targetClip = chaseSound;
-                loop = true;
+                targetClip = chaseSound; loop = true;
                 break;
         }
-
         if (audioSource.clip != targetClip)
         {
             audioSource.Stop();
             audioSource.clip = targetClip;
             audioSource.loop = loop;
-            if (targetClip != null)
-            {
-                audioSource.Play();
-            }
-        }
-    }
-
-    public void PlayAttackSound()
-    {
-        if (attackSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(attackSound);
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        // Vẽ detection ranges
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, farRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, nearRange);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-
-        // Vẽ patrol points và đường đi
-        if (patrolPoints != null && patrolPoints.Length > 0)
-        {
-            for (int i = 0; i < patrolPoints.Length; i++)
-            {
-                if (patrolPoints[i] != null)
-                {
-                    // Highlight current patrol point
-                    if (i == currentPatrolIndex)
-                    {
-                        Gizmos.color = Color.green;
-                        Gizmos.DrawWireCube(patrolPoints[i].position, Vector3.one * 1.5f);
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.blue;
-                        Gizmos.DrawWireCube(patrolPoints[i].position, Vector3.one);
-                    }
-
-                    // Vẽ số thứ tự
-                    #if UNITY_EDITOR
-                    UnityEditor.Handles.Label(patrolPoints[i].position + Vector3.up, i.ToString());
-                    #endif
-
-                    // Vẽ đường nối giữa các patrol points
-                    if (i < patrolPoints.Length - 1 && patrolPoints[i + 1] != null)
-                    {
-                        Gizmos.color = Color.cyan;
-                        Gizmos.DrawLine(patrolPoints[i].position, patrolPoints[i + 1].position);
-                    }
-                    else if (i == patrolPoints.Length - 1 && patrolPoints[0] != null)
-                    {
-                        // Nối điểm cuối với điểm đầu
-                        Gizmos.color = Color.cyan;
-                        Gizmos.DrawLine(patrolPoints[i].position, patrolPoints[0].position);
-                    }
-                }
-            }
-        }
-
-        // Vẽ current destination
-        if (Application.isPlaying && agent != null && agent.hasPath)
-        {
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(transform.position, agent.destination);
-            Gizmos.DrawWireSphere(agent.destination, 0.3f);
-        }
-
-        // Vẽ player info
-        if (Application.isPlaying && player != null)
-        {
-            Gizmos.color = playerIsMoving ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(player.position, 0.5f);
+            if (targetClip != null) audioSource.Play();
         }
     }
 }
