@@ -9,8 +9,7 @@ public class EnemyAI3 : MonoBehaviour
     private AudioSource audioSource;
 
     public Transform player;
-    private Rigidbody playerRigidbody;
-    private CharacterController playerCharacterController;
+    private PlayerStateTracker playerState; // dùng để lấy trạng thái player
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
@@ -22,12 +21,8 @@ public class EnemyAI3 : MonoBehaviour
     public float nearRange = 5f;
     public float farRange = 15f;
     public float attackRange = 2f;
-    public float chaseSpeed = 15f;   // chỉnh chase speed ở đây
+    public float chaseSpeed = 5f;
     public float maxChaseDistance = 25f;
-
-    [Header("NavMesh Settings")]
-    public float chaseAcceleration = 80f; // tốc độ tăng tốc khi đuổi
-    public float chaseAngularSpeed = 720f; // tốc độ xoay khi đuổi
 
     private enum State { Patrol, Chase, Attack, Idle, PatrolWaiting }
     private State currentState;
@@ -46,12 +41,8 @@ public class EnemyAI3 : MonoBehaviour
     public float maxIdleTime = 3f;
     private float patrolWaitTimer = 0f;
 
-    private float lastDestinationUpdateTime;
-    private Vector3 lastPlayerPosition;
-    private float destinationUpdateInterval = 0.3f;
-    private float minDistanceToUpdateDestination = 1f;
-
-    private Vector3 previousPlayerPosition;
+    private bool playerIsMoving = false;
+    private bool playerIsCrouching = false;
 
     void Start()
     {
@@ -87,8 +78,11 @@ public class EnemyAI3 : MonoBehaviour
             return;
         }
 
-        playerRigidbody = player.GetComponent<Rigidbody>();
-        playerCharacterController = player.GetComponent<CharacterController>();
+        playerState = player.GetComponent<PlayerStateTracker>();
+        if (playerState == null)
+        {
+            Debug.LogError("EnemyAI3: PlayerStateTracker missing on Player!");
+        }
 
         for (int i = 0; i < patrolPoints.Length; i++)
         {
@@ -100,36 +94,31 @@ public class EnemyAI3 : MonoBehaviour
             }
         }
 
-        // cấu hình mặc định cho agent
         agent.speed = patrolSpeed;
-        agent.acceleration = 20f;   // nhanh hơn mặc định
-        agent.angularSpeed = 360f;
-        agent.stoppingDistance = attackRange - 0.2f;
-
         agent.isStopped = false;
         agent.updateRotation = true;
         agent.updatePosition = true;
 
-        if (audioSource != null) audioSource.playOnAwake = false;
+        if (audioSource != null)
+        {
+            audioSource.playOnAwake = false;
+        }
 
         currentState = State.Patrol;
-        previousPlayerPosition = player.position;
-
         Debug.Log("EnemyAI3: Starting patrol system...");
+
         StartCoroutine(InitializePatrol());
     }
 
     IEnumerator InitializePatrol()
     {
         yield return null;
-
         if (patrolPoints.Length > 0 && patrolPoints[currentPatrolIndex] != null)
         {
-            Vector3 targetPos = patrolPoints[currentPatrolIndex].position;
-            Debug.Log($"Setting initial destination to patrol point {currentPatrolIndex}: {targetPos}");
-            if (agent.SetDestination(targetPos))
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+            if (animator != null)
             {
-                if (animator != null) animator.SetBool("isWalking", true);
+                animator.SetBool("isWalking", true);
             }
         }
     }
@@ -138,13 +127,14 @@ public class EnemyAI3 : MonoBehaviour
     {
         if (player == null || !agent.isOnNavMesh) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (Time.frameCount % 60 == 0)
+        // lấy trạng thái từ PlayerStateTracker
+        if (playerState != null)
         {
-            Debug.Log($"State: {currentState}, Distance: {distanceToPlayer:F2}");
-            Debug.Log($"Agent: velocity={agent.velocity.magnitude:F2}, hasPath={agent.hasPath}, remaining={agent.remainingDistance:F2}");
+            playerIsMoving = playerState.isMoving;
+            playerIsCrouching = playerState.isCrouching;
         }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (currentState == State.PatrolWaiting)
         {
@@ -168,16 +158,21 @@ public class EnemyAI3 : MonoBehaviour
 
         ManageAudio(distanceToPlayer);
 
+        // --- FIX CHASE ---
         if (currentState == State.Chase && player != null)
         {
-            if (Time.time - lastDestinationUpdateTime >= destinationUpdateInterval ||
-                Vector3.Distance(player.position, lastPlayerPosition) > minDistanceToUpdateDestination)
+            if (agent.isOnNavMesh)
             {
+                agent.isStopped = false; // đảm bảo không bị stop
+                agent.speed = chaseSpeed;
                 agent.SetDestination(player.position);
-                lastDestinationUpdateTime = Time.time;
-                lastPlayerPosition = player.position;
+
+                Debug.Log($"[CHASE] isStopped={agent.isStopped}, hasPath={agent.hasPath}, " +
+                          $"pathStatus={agent.pathStatus}, velocity={agent.velocity.magnitude:F2}, " +
+                          $"remaining={agent.remainingDistance:F2}");
             }
 
+            // quay mặt về phía player
             Vector3 direction = (player.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
@@ -204,7 +199,14 @@ public class EnemyAI3 : MonoBehaviour
             if (idleTimer >= maxIdleTime)
             {
                 isWaitingToPatrol = false;
-                SwitchState(State.Patrol);
+                if (distanceToPlayer > nearRange || !playerIsMoving)
+                {
+                    SwitchState(State.Patrol);
+                }
+                else
+                {
+                    SwitchState(State.Chase);
+                }
                 idleTimer = 0f;
             }
         }
@@ -218,24 +220,10 @@ public class EnemyAI3 : MonoBehaviour
     void GoToNextPatrolPoint()
     {
         if (patrolPoints.Length == 0) return;
-
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-
         if (patrolPoints[currentPatrolIndex] != null)
         {
-            Vector3 targetPos = patrolPoints[currentPatrolIndex].position;
-            NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(targetPos, path))
-            {
-                if (path.status == NavMeshPathStatus.PathComplete)
-                {
-                    agent.SetPath(path);
-                }
-                else
-                {
-                    agent.SetDestination(targetPos);
-                }
-            }
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
         }
     }
 
@@ -245,17 +233,33 @@ public class EnemyAI3 : MonoBehaviour
 
         State nextState = currentState;
 
-        if (distanceToPlayer <= attackRange && Time.time - lastAttackTime >= attackCooldown)
+        if (distanceToPlayer <= attackRange && playerIsMoving && Time.time - lastAttackTime >= attackCooldown)
         {
             nextState = State.Attack;
         }
         else if (distanceToPlayer <= nearRange)
         {
-            nextState = State.Chase;
+            if (playerIsMoving)
+            {
+                nextState = State.Chase;
+            }
+            else if (currentState == State.Chase || currentState == State.Attack)
+            {
+                nextState = State.Idle;
+                isWaitingToPatrol = true;
+            }
         }
         else if (distanceToPlayer <= farRange && distanceToPlayer <= maxChaseDistance)
         {
-            nextState = State.Chase;
+            if (playerIsMoving && !playerIsCrouching)
+            {
+                nextState = State.Chase;
+            }
+        }
+        else if (currentState == State.Chase || currentState == State.Attack)
+        {
+            nextState = State.Idle;
+            isWaitingToPatrol = true;
         }
         else
         {
@@ -270,7 +274,6 @@ public class EnemyAI3 : MonoBehaviour
 
     void SwitchState(State newState)
     {
-        Debug.Log($"Switching from {currentState} to {newState}");
         currentState = newState;
 
         if (animator != null)
@@ -286,8 +289,6 @@ public class EnemyAI3 : MonoBehaviour
         {
             case State.Patrol:
                 agent.speed = patrolSpeed;
-                agent.acceleration = 20f;
-                agent.angularSpeed = 360f;
                 if (animator != null) animator.SetBool("isWalking", true);
                 GoToNextPatrolPoint();
                 break;
@@ -300,15 +301,8 @@ public class EnemyAI3 : MonoBehaviour
 
             case State.Chase:
                 agent.speed = chaseSpeed;
-                agent.acceleration = chaseAcceleration;
-                agent.angularSpeed = chaseAngularSpeed;
                 if (animator != null) animator.SetBool("isRunning", true);
-                if (player != null)
-                {
-                    agent.SetDestination(player.position);
-                    lastPlayerPosition = player.position;
-                    lastDestinationUpdateTime = Time.time;
-                }
+                if (player != null) agent.SetDestination(player.position);
                 break;
 
             case State.Attack:
@@ -319,12 +313,6 @@ public class EnemyAI3 : MonoBehaviour
             case State.Idle:
                 agent.isStopped = true;
                 if (animator != null) animator.SetBool("isIdle", true);
-                if (player != null)
-                {
-                    Vector3 direction = (player.position - transform.position).normalized;
-                    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-                }
                 break;
         }
     }
@@ -333,13 +321,8 @@ public class EnemyAI3 : MonoBehaviour
     {
         agent.isStopped = true;
         if (player != null) transform.LookAt(player);
-
         if (animator != null)
         {
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isIdle", true);
-
             if (Time.time - lastAttackTime >= attackCooldown)
             {
                 animator.SetTrigger("attack");
@@ -351,86 +334,24 @@ public class EnemyAI3 : MonoBehaviour
     void ManageAudio(float distanceToPlayer)
     {
         if (audioSource == null) return;
-
         AudioClip targetClip = null;
         bool loop = false;
-
         switch (currentState)
         {
             case State.Patrol:
             case State.PatrolWaiting:
-                if (distanceToPlayer <= 20f)
-                {
-                    targetClip = patrolSound;
-                    loop = true;
-                }
+                if (distanceToPlayer <= 20f) { targetClip = patrolSound; loop = true; }
                 break;
             case State.Chase:
-                targetClip = chaseSound;
-                loop = true;
+                targetClip = chaseSound; loop = true;
                 break;
         }
-
         if (audioSource.clip != targetClip)
         {
             audioSource.Stop();
             audioSource.clip = targetClip;
             audioSource.loop = loop;
             if (targetClip != null) audioSource.Play();
-        }
-    }
-
-    public void PlayAttackSound()
-    {
-        if (attackSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(attackSound);
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, farRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, nearRange);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-
-        if (patrolPoints != null && patrolPoints.Length > 0)
-        {
-            for (int i = 0; i < patrolPoints.Length; i++)
-            {
-                if (patrolPoints[i] != null)
-                {
-                    Gizmos.color = (i == currentPatrolIndex) ? Color.green : Color.blue;
-                    Gizmos.DrawWireCube(patrolPoints[i].position, Vector3.one * 1.2f);
-
-#if UNITY_EDITOR
-                    UnityEditor.Handles.Label(patrolPoints[i].position + Vector3.up, i.ToString());
-#endif
-
-                    if (i < patrolPoints.Length - 1 && patrolPoints[i + 1] != null)
-                    {
-                        Gizmos.color = Color.cyan;
-                        Gizmos.DrawLine(patrolPoints[i].position, patrolPoints[i + 1].position);
-                    }
-                    else if (i == patrolPoints.Length - 1 && patrolPoints[0] != null)
-                    {
-                        Gizmos.color = Color.cyan;
-                        Gizmos.DrawLine(patrolPoints[i].position, patrolPoints[0].position);
-                    }
-                }
-            }
-        }
-
-        if (Application.isPlaying && agent != null && agent.hasPath)
-        {
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(transform.position, agent.destination);
-            Gizmos.DrawWireSphere(agent.destination, 0.3f);
         }
     }
 }
