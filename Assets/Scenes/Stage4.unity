@@ -12403,6 +12403,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4459864850019384738, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
   m_PrefabInstance: {fileID: 1397541442}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1067038258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067038245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809a11f24cc17534784608d5b3342934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hud: {fileID: 697031546}
+  inv: {fileID: 1216777174}
+  deathScreen: {fileID: 0}
+  player: {fileID: 0}
+  health: 100
+  healthSlider: {fileID: 0}
+  maxHealth: 100
 --- !u!1 &1067769700
 GameObject:
   m_ObjectHideFlags: 0
@@ -15376,6 +15395,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4459864850019384750, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1067038246}
+    - targetCorrespondingSourceObject: {fileID: 4459864850019384750, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1067038258}
     - targetCorrespondingSourceObject: {fileID: 4459864851310106424, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1800215404}
